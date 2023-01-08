@@ -14,7 +14,10 @@
       "runtimeExecutable": "npm",
       "args": [
         "start"
-      ]
+      ],
+      "env": {
+        "FILES_API_PORT": "8000"
+      }
     }
   ]
 }

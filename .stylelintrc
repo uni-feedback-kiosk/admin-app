@@ -13,7 +13,7 @@
       "files": [
         "**/*{.tsx,.ts}"
       ],
-      "customSyntax": "@stylelint/postcss-css-in-js"
+      "customSyntax": "postcss-styled-components"
     }
   ]
 }

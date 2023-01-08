@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const { FAQ_API_PORT } = process.env;
-const FAQ_API_ROOT = `http://${window.location.hostname}:${FAQ_API_PORT}`;
+const { FILES_API_PORT } = process.env;
+const FILES_API_ROOT = `http://${window.location.hostname}:${FILES_API_PORT}`;
 
 const authenticate = async (username: string, password: string) =>
-  axios.post(`${FAQ_API_ROOT}/auth`, {
+  axios.post(`${FILES_API_ROOT}/auth`, {
     username,
     password,
   });
