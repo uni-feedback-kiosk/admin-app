@@ -1,12 +1,14 @@
-import { createRef, FormEvent, useContext, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { createRef, FormEvent } from 'react';
 import styled from 'styled-components';
+import { Navigate } from 'react-router-dom';
 import Error from '../components/ui/Error';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import AuthContext from '../contexts/AuthContext';
 import authenticate from '../data/api/auth';
-import { getErrorInfo } from '../data/api/errors';
+import handleError from '../data/api/errors';
+import { useAppDispatch, useAppSelector } from '../app/storeHooks';
+import { clearToken, setToken } from '../app/authSlice';
+import { clearError, setError } from '../app/errorSlice';
 
 const StyledForm = styled.form`
   display: flex;
@@ -18,21 +20,25 @@ const StyledForm = styled.form`
 `;
 
 const Login = () => {
-  const { token, setToken } = useContext(AuthContext);
-
-  const [error, setError] = useState('');
+  const token = useAppSelector((state) => state.auth.token);
+  const error = useAppSelector((state) => state.error);
+  const dispatch = useAppDispatch();
 
   const usernameField = createRef<HTMLInputElement>();
   const passwordField = createRef<HTMLInputElement>();
 
   const logIn = async (username: string, password: string) => {
-    setError('');
+    dispatch(clearError());
 
     authenticate(username, password).then(
       ({ data }) => {
-        setToken(data.access_token);
+        dispatch(setToken(data.access_token));
       },
-      (err) => setError(getErrorInfo(err).message),
+      (err) => handleError(
+        err,
+        (message) => dispatch(setError(message)),
+        () => dispatch(clearToken()),
+      ),
     );
   };
 
@@ -46,9 +52,11 @@ const Login = () => {
     logIn(usernameField.current.value, passwordField.current.value);
   };
 
-  return token ? (
-    <Navigate to="/files" />
-  ) : (
+  if (token !== '') {
+    return <Navigate to="/files" />;
+  }
+
+  return (
     <>
       <StyledForm onSubmit={submitAction}>
         <Input

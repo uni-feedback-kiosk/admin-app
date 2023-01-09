@@ -1,10 +1,10 @@
 import { AxiosError } from 'axios';
 
 type ApiError = AxiosError<{ detail?: string }>;
-type ErrorCallback = (message: string) => {};
-type LogoutCallback = () => {};
+type ErrorCallback = (message: string) => void;
+type LogoutCallback = () => void;
 
-export const getErrorInfo = ({ response, message }: ApiError) => {
+const getErrorInfo = ({ response, message }: ApiError) => {
   // no response: network error, probably
   if (!response?.data?.detail) {
     return {
@@ -21,10 +21,12 @@ export const getErrorInfo = ({ response, message }: ApiError) => {
   };
 };
 
-export const handleError = (error: ApiError, onError: ErrorCallback, onLogout: LogoutCallback) => {
+export default function handleError(
+  error: ApiError, onError: ErrorCallback, onLogout: LogoutCallback,
+) {
   const { message, logOut } = getErrorInfo(error);
   onError(message);
   if (logOut) {
     onLogout();
   }
-};
+}

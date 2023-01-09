@@ -1,6 +1,6 @@
-import { useContext } from 'react';
 import styled from 'styled-components';
-import AuthContext from '../../contexts/AuthContext';
+import { clearToken } from '../../app/authSlice';
+import { useAppDispatch, useAppSelector } from '../../app/storeHooks';
 import colors from '../../data/values/colors';
 import Button from '../ui/Button';
 
@@ -22,14 +22,15 @@ const StyledAppName = styled.h1`
 `;
 
 export default () => {
-  const { token, setToken } = useContext(AuthContext);
+  const token = useAppSelector((state) => state.auth.token);
+  const dispatch = useAppDispatch();
 
-  const logOut = () => setToken(null);
+  const logOut = () => dispatch(clearToken());
 
   return (
     <StyledHeader>
       <StyledAppName>Kiosk Admin App</StyledAppName>
-      {token !== null && <Button color="negative" onClick={logOut}>Log Out</Button>}
+      {token !== '' && <Button color="negative" onClick={logOut}>Log Out</Button>}
     </StyledHeader>
   );
 };
