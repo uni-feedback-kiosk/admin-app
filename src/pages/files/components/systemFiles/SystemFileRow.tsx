@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useToggle } from 'usehooks-ts';
 import FileRow from '../FileRow';
-import Button from '../../../../components/ui/Button';
 import colors from '../../../../constants';
-import { getErrorMessage, useLazyGetFileQuery } from '../../../../store/apiSlice';
-import Notification from '../../../../components/ui/Notification';
 import { FileInfo } from '../../../../store/models';
+import { AddToListButton, DeleteButton, DownloadButton } from './Buttons';
+import { setError } from '../../filesSlice';
+import { useAppDispatch } from '../../../../store/store';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -30,9 +30,10 @@ const ButtonRow = styled.div`
 `;
 
 export default ({ file }: { file: FileInfo }) => {
-  const [openFile, { isError, error }] = useLazyGetFileQuery();
-
   const [isDrawerOpened, toggleIsDrawerOpened] = useToggle(false);
+  const dispatch = useAppDispatch();
+
+  const onError = (error: string) => dispatch(setError(error));
 
   return (
     <StyledWrapper>
@@ -40,13 +41,12 @@ export default ({ file }: { file: FileInfo }) => {
       {
         isDrawerOpened && (
           <ButtonRow>
-            <Button onClick={() => openFile(file)}>Open</Button>
-            <Button>Use</Button>
-            <Button color="negative">Delete</Button>
+            <DownloadButton file={file} onError={onError} />
+            <AddToListButton file={file} onError={onError} />
+            <DeleteButton file={file} onError={onError} />
           </ButtonRow>
         )
       }
-      {isError && <Notification type="error">{getErrorMessage(error!)}</Notification>}
     </StyledWrapper>
   );
 };

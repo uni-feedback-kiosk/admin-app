@@ -1,15 +1,12 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { Language } from './Language';
 import LanguageTabs from './LanguageTabs';
 import { FilesPanelProps } from '../FilesPanelProps';
 import FileRow from '../FileRow';
-import Button from '../../../../components/ui/Button';
 import Panel from '../../../../components/ui/Panel';
 import Input from '../../../../components/ui/Input';
-import { getErrorMessage, useUpdateFileMutation } from '../../../../store/apiSlice';
-import Notification from '../../../../components/ui/Notification';
-import { FileInfo } from '../../../../store/models';
+import { setError, setLanguage } from '../../filesSlice';
+import { useAppDispatch, useAppSelector } from '../../../../store/store';
+import { RemoveButton } from './Buttons';
 
 const StyledFilename = styled.div`
   width: 80%;
@@ -17,34 +14,27 @@ const StyledFilename = styled.div`
 `;
 
 export default ({ files }: FilesPanelProps) => {
-  const [updateFile, { isError, error }] = useUpdateFileMutation();
-  const [language, setLanguage] = useState<Language>('ru');
-
-  const removeFile = (file: FileInfo) => {
-    updateFile({ id: file.id, description: Object.fromEntries([[language, '']]) });
-  };
+  const language = useAppSelector((store) => store.files.language);
+  const dispatch = useAppDispatch();
 
   return (
-    <>
-      <Panel
-        header={<LanguageTabs onLanguageChanged={setLanguage} />}
-        body={(
-          <>
-            {files.filter(
-              ({ description }) => description[language] !== '',
-            ).map(
-              (file) => (
-                <FileRow key={file.id}>
-                  <StyledFilename>{file.filename}</StyledFilename>
-                  <Input type="text" placeholder="Display name" defaultValue={file.description[language]} />
-                  <Button onClick={() => removeFile(file)} color="negative">Remove</Button>
-                </FileRow>
-              ),
-            )}
-          </>
+    <Panel
+      header={<LanguageTabs onLanguageChanged={(lang) => dispatch(setLanguage(lang))} />}
+      body={(
+        <>
+          {files.filter(
+            ({ description }) => description[language] !== '',
+          ).map(
+            (file) => (
+              <FileRow key={file.id}>
+                <StyledFilename>{file.filename}</StyledFilename>
+                <Input type="text" placeholder="Display name" defaultValue={file.description[language]} />
+                <RemoveButton file={file} onError={(error) => dispatch(setError(error))} />
+              </FileRow>
+            ),
+          )}
+        </>
       )}
-      />
-      {isError && <Notification type="error">{getErrorMessage(error!)}</Notification>}
-    </>
+    />
   );
 };

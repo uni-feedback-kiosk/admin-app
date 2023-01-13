@@ -17,6 +17,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Files'],
   endpoints: (builder) => ({
     authenticate: builder.mutation<AuthResponse, AuthBody>({
       query: (auth) => ({
@@ -27,6 +28,7 @@ export const apiSlice = createApi({
     }),
     listFiles: builder.query<FileInfo[], void>({
       query: () => ({ url: '/' }),
+      providesTags: ['Files'],
     }),
     getFile: builder.query<null, FileDownloadQuery>({
       queryFn: async ({ id: fileId, filename }, _, __, baseQuery) => {
@@ -66,6 +68,7 @@ export const apiSlice = createApi({
           },
         };
       },
+      invalidatesTags: ['Files'],
     }),
     updateFile: builder.mutation<FileInfo, FileUpdate>({
       query: ({ id: fileId, ...update }) => ({
@@ -73,19 +76,21 @@ export const apiSlice = createApi({
         method: 'PATCH',
         body: update,
       }),
+      invalidatesTags: ['Files'],
     }),
     deleteFile: builder.mutation<null, string>({
       query: (fileId) => ({
         url: `/${fileId}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Files'],
     }),
   }),
 });
 
 export const getErrorMessage = (error: FetchBaseQueryError | SerializedError) => {
   if (!('status' in error)) {
-    return error.message;
+    return error.message!;
   }
 
   if ('error' in error) {

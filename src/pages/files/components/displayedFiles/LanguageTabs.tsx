@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { Language } from './Language';
+import { Language } from '../../filesSlice';
 import TabToggle from './TabToggle';
 
 interface LanguageTabsProps {

@@ -4,7 +4,7 @@ import { PanelProps } from '../../../components/ui/Panel';
 
 const StyledPanelView = styled.div`
   display: grid;
-  grid-template-columns: 20vw 40vw;
+  grid-template-columns: minmax(22em, 1fr) 2fr;
   align-items: stretch;
   gap: 1em;
   height: 100%;

@@ -2,10 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { apiSlice } from './apiSlice';
 import { authSlice } from '../pages/login/authSlice';
+import { filesSlice } from '../pages/files/filesSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
+    files: filesSlice.reducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
