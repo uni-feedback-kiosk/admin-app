@@ -63,9 +63,6 @@ export const apiSlice = createApi({
           url: '/new',
           method: 'POST',
           body: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
         };
       },
       invalidatesTags: ['Files'],

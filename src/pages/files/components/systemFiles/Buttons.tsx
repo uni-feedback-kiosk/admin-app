@@ -1,8 +1,45 @@
+import { createRef } from 'react';
+import styled from 'styled-components';
 import Button from '../../../../components/ui/Button';
 import useNotifyOnError from '../../../../hooks/useNotifyOnError';
-import { useDeleteFileMutation, useLazyGetFileQuery, useUpdateFileMutation } from '../../../../store/apiSlice';
+import { useAddFileMutation, useDeleteFileMutation, useLazyGetFileQuery, useUpdateFileMutation } from '../../../../store/apiSlice';
 import { useAppSelector } from '../../../../store/store';
 import FileButtonProps from '../FileButtonProps';
+
+const HiddenInput = styled.input`
+  display: none;
+`;
+
+export const UploadButton = ({ onError }: Pick<FileButtonProps, 'onError'>) => {
+  const [addFile, { isError, error }] = useAddFileMutation();
+  useNotifyOnError(onError, isError, error);
+
+  const uploaderId = 'upload-btn';
+  const inputRef = createRef<HTMLInputElement>();
+
+  const onFilesSelected = () => {
+    if (inputRef.current === null) {
+      return;
+    }
+
+    const files = Array.from(inputRef.current.files!);
+    files.forEach(addFile);
+  };
+
+  return (
+    <Button onClick={() => inputRef.current?.click()}>
+      <span>Upload</span>
+      <HiddenInput
+        ref={inputRef}
+        onChange={onFilesSelected}
+        id={uploaderId}
+        type="file"
+        accept="application/pdf"
+        multiple
+      />
+    </Button>
+  );
+};
 
 export const DownloadButton = ({ file, onError }: FileButtonProps) => {
   const [openFile, { isError, error }] = useLazyGetFileQuery();

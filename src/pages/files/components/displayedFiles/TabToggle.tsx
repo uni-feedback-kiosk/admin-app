@@ -11,6 +11,7 @@ const TabWrapper = styled.div`
 
 const StyledLabel = styled.label`
   display: block;
+  text-align: center;
   box-sizing: border-box;
   cursor: pointer;
   transition: all 0.2s;

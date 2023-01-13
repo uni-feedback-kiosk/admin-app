@@ -9,8 +9,14 @@ import { useAppDispatch, useAppSelector } from '../../../../store/store';
 import { RemoveButton } from './Buttons';
 
 const StyledFilename = styled.div`
-  width: 80%;
-  text-align: left;
+  flex: 2;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+`;
+
+const StyledInput = styled(Input)`
+  flex: 1;
+  min-width: 15em;
 `;
 
 export default ({ files }: FilesPanelProps) => {
@@ -28,7 +34,7 @@ export default ({ files }: FilesPanelProps) => {
             (file) => (
               <FileRow key={file.id}>
                 <StyledFilename>{file.filename}</StyledFilename>
-                <Input type="text" placeholder="Display name" defaultValue={file.description[language]} />
+                <StyledInput type="text" placeholder="Display name" defaultValue={file.description[language]} />
                 <RemoveButton file={file} onError={(error) => dispatch(setError(error))} />
               </FileRow>
             ),

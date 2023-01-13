@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useToggle } from 'usehooks-ts';
 import FileRow from '../FileRow';
 import colors from '../../../../constants';
@@ -14,19 +14,37 @@ const StyledWrapper = styled.div`
   outline: 0.1em solid ${colors.green};
   border-radius: 0.5em;
   align-items: stretch;
+  padding: 0 0.5em;
 `;
 
 const StyledFileRow = styled(FileRow)`
   cursor: pointer;
   user-select: none;
+  display: block;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  box-sizing: content-box;
+  width: 100%;
+  margin-left: -0.5em;
 `;
 
-const ButtonRow = styled.div`
+const buttonsVisibility = ({ visible }: { visible: boolean }) => visible ? css`
+  margin: 0.5em 0;
+  height: 2.2em;
+` : css`
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+`;
+
+const ButtonRow = styled.div<{ visible: boolean }>`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   gap: 0.5em;
-  margin: 0.5em;
+  transition: all 0.1s;
+  ${buttonsVisibility}
 `;
 
 export default ({ file }: { file: FileInfo }) => {
@@ -38,15 +56,11 @@ export default ({ file }: { file: FileInfo }) => {
   return (
     <StyledWrapper>
       <StyledFileRow onClick={toggleIsDrawerOpened}>{file.filename}</StyledFileRow>
-      {
-        isDrawerOpened && (
-          <ButtonRow>
-            <DownloadButton file={file} onError={onError} />
-            <AddToListButton file={file} onError={onError} />
-            <DeleteButton file={file} onError={onError} />
-          </ButtonRow>
-        )
-      }
+      <ButtonRow visible={isDrawerOpened}>
+        <DownloadButton file={file} onError={onError} />
+        <AddToListButton file={file} onError={onError} />
+        <DeleteButton file={file} onError={onError} />
+      </ButtonRow>
     </StyledWrapper>
   );
 };

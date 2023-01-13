@@ -4,10 +4,8 @@ import Header from './Header';
 
 const StyledLayout = styled.div`
   height: 100%;
-  text-align: center;
   display: grid;
   align-items: stretch;
-  gap: 1em;
   grid-template:
     "header" 6em
     "main" auto;
@@ -20,6 +18,10 @@ const StyledMain = styled.main`
   flex-direction: column;
   align-items: center;
   gap: 1em;
+  padding: 1em;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
 `;
 
 export default ({ children }: { children: ReactNode }) => (

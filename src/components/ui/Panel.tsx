@@ -13,6 +13,8 @@ const StyledPanel = styled.section`
     "header" 2em
     "main" auto;
   gap: 1em;
+  min-height: 0;
+  box-sizing: border-box;
 `;
 
 const PanelHeader = styled.div`
@@ -32,6 +34,10 @@ const PanelBody = styled.div`
   gap: 0.5em;
   justify-content: start;
   align-items: stretch;
+  overflow-y: scroll;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
 `;
 
 export default ({ header, body }: PanelProps) => (
