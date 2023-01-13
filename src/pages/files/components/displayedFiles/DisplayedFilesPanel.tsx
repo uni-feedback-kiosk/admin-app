@@ -1,22 +1,17 @@
 import styled from 'styled-components';
+import { RemoveButton } from './Buttons';
+import DisplayNameInput from './DisplayNameInput';
 import LanguageTabs from './LanguageTabs';
 import { FilesPanelProps } from '../FilesPanelProps';
 import FileRow from '../FileRow';
 import Panel from '../../../../components/ui/Panel';
-import Input from '../../../../components/ui/Input';
 import { setError, setLanguage } from '../../filesSlice';
 import { useAppDispatch, useAppSelector } from '../../../../store/store';
-import { RemoveButton } from './Buttons';
 
 const StyledFilename = styled.div`
   flex: 2;
   overflow-x: hidden;
   text-overflow: ellipsis;
-`;
-
-const StyledInput = styled(Input)`
-  flex: 1;
-  min-width: 15em;
 `;
 
 export default ({ files }: FilesPanelProps) => {
@@ -34,7 +29,7 @@ export default ({ files }: FilesPanelProps) => {
             (file) => (
               <FileRow key={file.id}>
                 <StyledFilename>{file.filename}</StyledFilename>
-                <StyledInput type="text" placeholder="Display name" defaultValue={file.description[language]} />
+                <DisplayNameInput file={file} />
                 <RemoveButton file={file} onError={(error) => dispatch(setError(error))} />
               </FileRow>
             ),

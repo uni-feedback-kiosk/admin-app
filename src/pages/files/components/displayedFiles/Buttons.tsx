@@ -1,22 +1,49 @@
+import { forwardRef, RefObject } from 'react';
 import Button from '../../../../components/ui/Button';
 import useNotifyOnError from '../../../../hooks/useNotifyOnError';
 import { useUpdateFileMutation } from '../../../../store/apiSlice';
 import { useAppSelector } from '../../../../store/store';
 import FileButtonProps from '../FileButtonProps';
 
-export const SaveDescriptionButton = (
-  { file, onError }: FileButtonProps,
-) => {
-  const [updateFile, { isError, error }] = useUpdateFileMutation();
-  useNotifyOnError(onError, isError, error);
-  const language = useAppSelector((store) => store.files.language);
+export const SaveDescriptionButton = forwardRef<HTMLButtonElement, FileButtonProps & {
+  inputRef: RefObject<HTMLInputElement>;
+  onSuccess: () => void;
+  className?: string;
+  disabled?: boolean;
+}>(
+    (
+      { file, onError, inputRef, onSuccess, className, disabled },
+      ref,
+    ) => {
+      const [updateFile, { isError, error }] = useUpdateFileMutation();
+      useNotifyOnError(onError, isError, error);
+      const language = useAppSelector((store) => store.files.language);
 
-  const addFile = () => {
-    updateFile({ id: file.id, description: Object.fromEntries([[language, '']]) });
-  };
+      const renameFile = () => {
+        if (inputRef.current === null) {
+          return;
+        }
 
-  return <Button onClick={addFile}>Add</Button>;
-};
+        const { value } = inputRef.current;
+        updateFile({
+          id: file.id,
+          description: Object.fromEntries([[language, value]]),
+        }).unwrap().then(
+          () => onSuccess(),
+        );
+      };
+
+      return (
+        <Button
+          ref={ref}
+          disabled={disabled}
+          className={className}
+          onClick={renameFile}
+        >Save
+        </Button>
+      );
+    },
+    );
 
 export const RemoveButton = ({ file, onError }: FileButtonProps) => {
   const language = useAppSelector((store) => store.files.language);
