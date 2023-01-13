@@ -1,4 +1,4 @@
-import { FileInfo } from '../../../data/api/types';
+import { FileInfo } from '../../../store/models';
 
 export interface FilesPanelProps {
   files: FileInfo[];

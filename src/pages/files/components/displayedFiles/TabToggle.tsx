@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
-import colors from '../../../../data/values/colors';
+import colors from '../../../../constants';
 
 type TabTogglePropName = 'name' | 'value' | 'defaultChecked' | 'children' | 'onChange';
 type TabToggleProps = Pick<InputHTMLAttributes<HTMLInputElement>, TabTogglePropName>;

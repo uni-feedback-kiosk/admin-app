@@ -1,14 +1,11 @@
 import styled from 'styled-components';
 import { useToggle } from 'usehooks-ts';
-import { clearToken } from '../../../../app/authSlice';
-import { setError } from '../../../../app/errorSlice';
-import { useAppDispatch, useAppSelector } from '../../../../app/storeHooks';
-import Button from '../../../../components/ui/Button';
-import handleError from '../../../../data/api/errors';
-import { getFile } from '../../../../data/api/files';
-import { FileInfo } from '../../../../data/api/types';
-import colors from '../../../../data/values/colors';
 import FileRow from '../FileRow';
+import Button from '../../../../components/ui/Button';
+import colors from '../../../../constants';
+import { getErrorMessage, useLazyGetFileQuery } from '../../../../store/apiSlice';
+import Notification from '../../../../components/ui/Notification';
+import { FileInfo } from '../../../../store/models';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -33,34 +30,9 @@ const ButtonRow = styled.div`
 `;
 
 export default ({ file }: { file: FileInfo }) => {
-  const token = useAppSelector((state) => state.auth.token);
-  const dispatch = useAppDispatch();
+  const [openFile, { isError, error }] = useLazyGetFileQuery();
 
   const [isDrawerOpened, toggleIsDrawerOpened] = useToggle(false);
-
-  const openFile = () => (
-    getFile(token, file.id).then(
-      ({ data }) => {
-        const url = window.URL.createObjectURL(new Blob([data]));
-
-        // Create a temporary link, click it and remove it afterwards
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = file.filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        window.URL.revokeObjectURL(url);
-      },
-      (err) => handleError(
-        err,
-        (message) => dispatch(setError(message)),
-        () => dispatch(clearToken()),
-      ),
-    )
-  );
 
   return (
     <StyledWrapper>
@@ -68,12 +40,13 @@ export default ({ file }: { file: FileInfo }) => {
       {
         isDrawerOpened && (
           <ButtonRow>
-            <Button onClick={openFile}>Open</Button>
+            <Button onClick={() => openFile(file)}>Open</Button>
             <Button>Use</Button>
             <Button color="negative">Delete</Button>
           </ButtonRow>
         )
       }
+      {isError && <Notification type="error">{getErrorMessage(error!)}</Notification>}
     </StyledWrapper>
   );
 };

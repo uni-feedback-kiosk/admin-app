@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { clearToken } from '../../app/authSlice';
-import { useAppDispatch, useAppSelector } from '../../app/storeHooks';
-import colors from '../../data/values/colors';
+import colors from '../../constants';
+import { clearToken } from '../../pages/login/authSlice';
+import { useAppSelector, useAppDispatch } from '../../store/store';
 import Button from '../ui/Button';
 
 const StyledHeader = styled.header`

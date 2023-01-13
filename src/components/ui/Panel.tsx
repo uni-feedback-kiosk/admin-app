@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import colors from '../../data/values/colors';
+import colors from '../../constants';
 
 export interface PanelProps {
   header: ReactNode

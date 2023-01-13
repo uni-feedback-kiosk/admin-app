@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import colors from '../../data/values/colors';
+import colors from '../../constants';
 
 interface ButtonProps {
   color?: 'negative' | 'positive';

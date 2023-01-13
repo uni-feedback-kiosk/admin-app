@@ -1,4 +1,4 @@
-export default {
+const colors = {
   white: '#ffffff',
   green: '#80bc00',
   green_active: '#70ac00',
@@ -15,3 +15,5 @@ export default {
   orange: '#ff5c35',
   orange_active: '#ee4b24',
 };
+
+export default colors;
