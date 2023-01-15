@@ -1,4 +1,4 @@
-const colors = {
+export const colors = {
   white: '#ffffff',
   green: '#80bc00',
   green_active: '#70ac00',
@@ -16,4 +16,4 @@ const colors = {
   orange_active: '#ee4b24',
 };
 
-export default colors;
+export const DraggedFileType = 'application/kiosk-file';

@@ -1,10 +1,11 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
-import colors from '../../constants';
+import { colors } from '../../constants';
 
 export interface PanelProps {
   header: ReactNode
   body: ReactNode
+  onBodyDragEnter?: () => void
 }
 
 const StyledPanel = styled.section`
@@ -26,6 +27,7 @@ const PanelHeader = styled.div`
 `;
 
 const PanelBody = styled.div`
+  position: relative;
   background: ${colors.light_grey};
   border-radius: 0.5em;
   padding: 0.5em;
@@ -40,9 +42,9 @@ const PanelBody = styled.div`
   box-sizing: border-box;
 `;
 
-export default ({ header, body }: PanelProps) => (
+export default ({ header, body, onBodyDragEnter }: PanelProps) => (
   <StyledPanel>
     <PanelHeader>{header}</PanelHeader>
-    <PanelBody>{body}</PanelBody>
+    <PanelBody onDragEnter={onBodyDragEnter}>{body}</PanelBody>
   </StyledPanel>
 );

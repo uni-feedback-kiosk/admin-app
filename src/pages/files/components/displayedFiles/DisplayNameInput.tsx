@@ -1,7 +1,7 @@
 import { createRef, KeyboardEventHandler, useState } from 'react';
 import styled from 'styled-components';
 import Input from '../../../../components/ui/Input';
-import colors from '../../../../constants';
+import { colors } from '../../../../constants';
 import { FileInfo } from '../../../../store/models';
 import { useAppDispatch, useAppSelector } from '../../../../store/store';
 import { setError } from '../../filesSlice';

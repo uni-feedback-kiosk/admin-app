@@ -1,7 +1,7 @@
 import { DragEventHandler } from 'react';
 import styled, { css } from 'styled-components';
 import { useToggle } from 'usehooks-ts';
-import colors from '../../../../constants';
+import { colors, DraggedFileType } from '../../../../constants';
 import { FileInfo } from '../../../../store/models';
 import { AddToListButton, DeleteButton, DownloadButton } from './Buttons';
 import { setError } from '../../filesSlice';
@@ -67,7 +67,12 @@ export default ({ file }: { file: FileInfo }) => {
   const onError = (error: string) => dispatch(setError(error));
 
   const onDragStart: DragEventHandler = (event) => {
-    event.dataTransfer.setData('application/kiosk-file', JSON.stringify(file));
+    event.dataTransfer.setData(DraggedFileType, JSON.stringify(file));
+
+    // The value below can be only changed by assignment
+    // eslint-disable-next-line no-param-reassign
+    event.dataTransfer.effectAllowed = 'link';
+
     const dragImage = createDragImage(file.filename);
     event.dataTransfer.setDragImage(dragImage, dragImage.offsetWidth / 2, 40);
     document.addEventListener('dragend',
