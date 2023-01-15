@@ -25,6 +25,7 @@ export const apiSlice = createApi({
         method: 'POST',
         body: auth,
       }),
+      invalidatesTags: ['Files'],
     }),
     listFiles: builder.query<FileInfo[], void>({
       query: () => ({ url: '/' }),

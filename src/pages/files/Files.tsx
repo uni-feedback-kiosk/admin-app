@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Notification from '../../components/ui/Notification';
 import useNotifyOnError from '../../hooks/useNotifyOnError';
 import { useListFilesQuery } from '../../store/apiSlice';
@@ -6,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import DisplayedFilesPanel from './components/displayedFiles/DisplayedFilesPanel';
 import FilesPanelView from './components/FilesPanelView';
 import SystemFilesPanel from './components/systemFiles/SystemFilesPanel';
-import { clearError, setError } from './filesSlice';
+import { setError } from './filesSlice';
 
 export default () => {
   const {
@@ -19,10 +18,6 @@ export default () => {
 
   const error = useAppSelector((store) => store.files.error);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(clearError());
-  }, []);
 
   useNotifyOnError(
     (err) => dispatch(setError(err)),
