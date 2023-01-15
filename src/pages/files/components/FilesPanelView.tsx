@@ -10,8 +10,11 @@ const StyledPanelView = styled.div`
   height: 100%;
 `;
 
-export default ({ panels } : { panels: ReactElement<PanelProps>[] }) => (
+type Panel = ReactElement<PanelProps>;
+
+export default ({ left, right } : { left: Panel, right: Panel }) => (
   <StyledPanelView>
-    {panels}
+    {left}
+    {right}
   </StyledPanelView>
 );

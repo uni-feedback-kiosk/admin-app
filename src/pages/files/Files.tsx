@@ -4,7 +4,7 @@ import useNotifyOnError from '../../hooks/useNotifyOnError';
 import { useListFilesQuery } from '../../store/apiSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import DisplayedFilesPanel from './components/displayedFiles/DisplayedFilesPanel';
-import StyledPanelView from './components/StyledPanelView';
+import FilesPanelView from './components/FilesPanelView';
 import SystemFilesPanel from './components/systemFiles/SystemFilesPanel';
 import { clearError, setError } from './filesSlice';
 
@@ -34,12 +34,9 @@ export default () => {
     <>
       {isLoading && <Notification>Loading...</Notification>}
       {isSuccess && (
-        <StyledPanelView panels={
-            [
-              <SystemFilesPanel files={files} />,
-              <DisplayedFilesPanel files={files} />,
-            ]
-          }
+        <FilesPanelView
+          left={<SystemFilesPanel files={files} />}
+          right={<DisplayedFilesPanel files={files} />}
         />
       )}
       {error && <Notification type="error">{error}</Notification>}
