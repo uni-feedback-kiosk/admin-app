@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
+import { DragEventHandler, ReactNode } from 'react';
 import styled from 'styled-components';
 import { colors } from '../../constants';
 
 export interface PanelProps {
   header: ReactNode
   body: ReactNode
-  onBodyDragEnter?: () => void
+  onBodyDragEnter?: DragEventHandler
 }
 
 const StyledPanel = styled.section`

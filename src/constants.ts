@@ -16,4 +16,4 @@ export const colors = {
   orange_active: '#ee4b24',
 };
 
-export const DraggedFileType = 'application/kiosk-file';
+export const KioskFileType = 'application/kiosk-file';

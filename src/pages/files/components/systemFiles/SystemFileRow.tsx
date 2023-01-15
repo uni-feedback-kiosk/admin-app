@@ -1,7 +1,7 @@
 import { DragEventHandler } from 'react';
 import styled, { css } from 'styled-components';
 import { useToggle } from 'usehooks-ts';
-import { colors, DraggedFileType } from '../../../../constants';
+import { colors, KioskFileType } from '../../../../constants';
 import { FileInfo } from '../../../../store/models';
 import { AddToListButton, DeleteButton, DownloadButton } from './Buttons';
 import { setError } from '../../filesSlice';
@@ -67,7 +67,7 @@ export default ({ file }: { file: FileInfo }) => {
   const onError = (error: string) => dispatch(setError(error));
 
   const onDragStart: DragEventHandler = (event) => {
-    event.dataTransfer.setData(DraggedFileType, JSON.stringify(file));
+    event.dataTransfer.setData(KioskFileType, JSON.stringify(file));
 
     // The value below can be only changed by assignment
     // eslint-disable-next-line no-param-reassign
