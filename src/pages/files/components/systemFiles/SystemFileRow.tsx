@@ -1,11 +1,13 @@
+import { DragEventHandler } from 'react';
 import styled, { css } from 'styled-components';
 import { useToggle } from 'usehooks-ts';
-import FileRow from '../FileRow';
 import colors from '../../../../constants';
 import { FileInfo } from '../../../../store/models';
 import { AddToListButton, DeleteButton, DownloadButton } from './Buttons';
 import { setError } from '../../filesSlice';
 import { useAppDispatch } from '../../../../store/store';
+import FileRow from '../FileRow';
+import useFilteredKeyDown from '../../../../hooks/useFilteredKeyDown';
 
 const StyledWrapper = styled.div`
   display: flex;
@@ -15,11 +17,10 @@ const StyledWrapper = styled.div`
   border-radius: 0.5em;
   align-items: stretch;
   padding: 0 0.5em;
+  cursor: pointer;
 `;
 
-const StyledFileRow = styled(FileRow)`
-  cursor: pointer;
-  user-select: none;
+const StyledFilename = styled(FileRow)`
   display: block;
   overflow-x: hidden;
   white-space: nowrap;
@@ -27,9 +28,6 @@ const StyledFileRow = styled(FileRow)`
   box-sizing: content-box;
   width: 100%;
   margin-left: -0.5em;
-  text-align: left;
-  font-size: 1em;
-  border: none;
   z-index: 1;
 `;
 
@@ -51,17 +49,45 @@ const ButtonRow = styled.div<{ visible: boolean }>`
   ${buttonsVisibility}
 `;
 
+const createDragImage = (filename: string) => {
+  const span = document.createElement('span');
+  span.innerText = filename;
+  span.style.position = 'absolute';
+  span.style.top = '-10em';
+  document.body.appendChild(span);
+
+  return span;
+};
+
 export default ({ file }: { file: FileInfo }) => {
   const [isDrawerOpened, toggleIsDrawerOpened] = useToggle(false);
   const dispatch = useAppDispatch();
+  const onKeyDown = useFilteredKeyDown([' ', 'Enter']);
 
   const onError = (error: string) => dispatch(setError(error));
 
+  const onDragStart: DragEventHandler = (event) => {
+    event.dataTransfer.setData('application/kiosk-file', JSON.stringify(file));
+    const dragImage = createDragImage(file.filename);
+    event.dataTransfer.setDragImage(dragImage, dragImage.offsetWidth / 2, 40);
+    document.addEventListener('dragend',
+      () => (
+        document.body.removeChild(dragImage)
+      ),
+    );
+  };
+
   return (
     <StyledWrapper>
-      <StyledFileRow as="button" onClick={toggleIsDrawerOpened}>
+      <StyledFilename
+        draggable="true"
+        onDragStart={onDragStart}
+        tabIndex={0}
+        onKeyDown={onKeyDown(toggleIsDrawerOpened)}
+        onClick={toggleIsDrawerOpened}
+      >
         {file.filename}
-      </StyledFileRow>
+      </StyledFilename>
       <ButtonRow visible={isDrawerOpened}>
         <DownloadButton file={file} onError={onError} />
         <AddToListButton file={file} onError={onError} />
