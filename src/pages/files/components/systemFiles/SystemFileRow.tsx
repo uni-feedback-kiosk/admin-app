@@ -27,6 +27,10 @@ const StyledFileRow = styled(FileRow)`
   box-sizing: content-box;
   width: 100%;
   margin-left: -0.5em;
+  text-align: left;
+  font-size: 1em;
+  border: none;
+  z-index: 1;
 `;
 
 const buttonsVisibility = ({ visible }: { visible: boolean }) => visible ? css`
@@ -55,7 +59,9 @@ export default ({ file }: { file: FileInfo }) => {
 
   return (
     <StyledWrapper>
-      <StyledFileRow onClick={toggleIsDrawerOpened}>{file.filename}</StyledFileRow>
+      <StyledFileRow as="button" onClick={toggleIsDrawerOpened}>
+        {file.filename}
+      </StyledFileRow>
       <ButtonRow visible={isDrawerOpened}>
         <DownloadButton file={file} onError={onError} />
         <AddToListButton file={file} onError={onError} />

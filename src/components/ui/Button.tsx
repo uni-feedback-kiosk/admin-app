@@ -30,7 +30,7 @@ export default styled.button<ButtonProps>`
   ${buttonFontSize}
   ${buttonPadding}
   ${buttonColor}
-  
+
   &:disabled {
     cursor: default;
     background-color: ${colors.dark_grey};
