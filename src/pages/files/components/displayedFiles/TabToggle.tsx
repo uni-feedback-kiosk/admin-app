@@ -1,5 +1,6 @@
-import { InputHTMLAttributes } from 'react';
+import { createRef, InputHTMLAttributes } from 'react';
 import styled from 'styled-components';
+import Button from '../../../../components/ui/Button';
 import colors from '../../../../constants';
 
 type TabTogglePropName = 'name' | 'value' | 'defaultChecked' | 'children' | 'onChange';
@@ -9,11 +10,10 @@ const TabWrapper = styled.div`
   flex: 1;
 `;
 
-const StyledLabel = styled.label`
+const StyledSwitchButton = styled(Button)`
   display: block;
   text-align: center;
   box-sizing: border-box;
-  cursor: pointer;
   transition: all 0.2s;
   margin: 0;
   border: 0.1em solid ${colors.green};
@@ -21,9 +21,14 @@ const StyledLabel = styled.label`
   padding: 0.5em;
   color: #000;
   width: 100%;
+  background-color: ${colors.white};
 
   input:checked + & {
     background-color: ${colors.green};
+    color: ${colors.white};
+  }
+
+  :enabled:active {
     color: ${colors.white};
   }
 `;
@@ -35,12 +40,19 @@ const StyledInput = styled.input`
 `;
 
 export default ({ name, value, defaultChecked, children, onChange }: TabToggleProps) => {
-  const id = `option-${name}-${value}`;
+  const radioRef = createRef<HTMLInputElement>();
 
   return (
     <TabWrapper>
-      <StyledInput type="radio" id={id} onChange={onChange} name={name} value={value} defaultChecked={defaultChecked} />
-      <StyledLabel htmlFor={id}>{children}</StyledLabel>
+      <StyledInput
+        ref={radioRef}
+        type="radio"
+        onChange={onChange}
+        name={name}
+        value={value}
+        defaultChecked={defaultChecked}
+      />
+      <StyledSwitchButton onClick={() => radioRef.current?.click()}>{children}</StyledSwitchButton>
     </TabWrapper>
   );
 };
