@@ -12,6 +12,10 @@ const StyledForm = styled.form`
   align-items: stretch;
   min-width: 30vw;
   font-size: 1.5em;
+
+  > button {
+    align-self: center;
+  }
 `;
 
 const Login = () => {
@@ -54,7 +58,7 @@ const Login = () => {
           ref={passwordField}
           required
         />
-        <Button style={{ alignSelf: 'center' }} type="submit">
+        <Button type="submit">
           Log In
         </Button>
       </StyledForm>

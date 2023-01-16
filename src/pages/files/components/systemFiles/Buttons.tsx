@@ -5,6 +5,10 @@ import useNotifyOnError from '../../../../hooks/useNotifyOnError';
 import { useAddFileMutation, useDeleteFileMutation, useLazyGetFileQuery, useUpdateFileMutation } from '../../../../store/apiSlice';
 import { useAppSelector } from '../../../../store/store';
 import FileButtonProps from '../FileButtonProps';
+import PlusIcon from '../../../../assets/PlusIcon.svg';
+import ArrowRightIcon from '../../../../assets/ArrowRightIcon.svg';
+import TrashIcon from '../../../../assets/TrashIcon.svg';
+import OpenIcon from '../../../../assets/OpenIcon.svg';
 
 const HiddenInput = styled.input`
   display: none;
@@ -27,7 +31,10 @@ export const UploadButton = ({ onError }: Pick<FileButtonProps, 'onError'>) => {
   };
 
   return (
-    <Button onClick={() => inputRef.current?.click()}>
+    <Button
+      icon={PlusIcon}
+      onClick={() => inputRef.current?.click()}
+    >
       <span>Upload</span>
       <HiddenInput
         ref={inputRef}
@@ -45,7 +52,7 @@ export const DownloadButton = ({ file, onError }: FileButtonProps) => {
   const [openFile, { isError, error }] = useLazyGetFileQuery();
   useNotifyOnError(onError, isError, error);
 
-  return <Button onClick={() => openFile(file)}>Download</Button>;
+  return <Button icon={OpenIcon} onClick={() => openFile(file)}>Open</Button>;
 };
 
 export const AddToListButton = (
@@ -59,12 +66,12 @@ export const AddToListButton = (
     updateFile({ id: file.id, description: Object.fromEntries([[language, file.filename]]) });
   };
 
-  return <Button onClick={addFile}>Add</Button>;
+  return <Button icon={ArrowRightIcon} onClick={addFile}>Add</Button>;
 };
 
 export const DeleteButton = ({ file, onError }: FileButtonProps) => {
   const [deleteFile, { isError, error }] = useDeleteFileMutation();
   useNotifyOnError(onError, isError, error);
 
-  return <Button onClick={() => deleteFile(file.id)} color="negative">Delete</Button>;
+  return <Button icon={TrashIcon} onClick={() => deleteFile(file.id)} color="negative">Delete</Button>;
 };

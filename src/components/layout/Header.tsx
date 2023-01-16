@@ -3,6 +3,7 @@ import { colors } from '../../constants';
 import { clearToken } from '../../pages/login/authSlice';
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import Button from '../ui/Button';
+import LogoutIcon from '../../assets/LogoutIcon.svg';
 
 const StyledHeader = styled.header`
   display: flex;
@@ -30,7 +31,7 @@ export default () => {
   return (
     <StyledHeader>
       <StyledAppName>Kiosk Admin App</StyledAppName>
-      {token !== '' && <Button color="negative" onClick={logOut}>Log Out</Button>}
+      {token !== '' && <Button icon={LogoutIcon} color="negative" onClick={logOut}>Log Out</Button>}
     </StyledHeader>
   );
 };

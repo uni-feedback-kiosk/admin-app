@@ -1,9 +1,18 @@
 import { forwardRef, RefObject } from 'react';
+import styled from 'styled-components';
 import Button from '../../../../components/ui/Button';
 import useNotifyOnError from '../../../../hooks/useNotifyOnError';
 import { useUpdateFileMutation } from '../../../../store/apiSlice';
 import { useAppSelector } from '../../../../store/store';
 import FileButtonProps from '../FileButtonProps';
+import DoneIcon from '../../../../assets/DoneIcon.svg';
+import PlusIcon from '../../../../assets/PlusIcon.svg';
+
+const RotatedIconButton = styled(Button)`
+  ::before {
+    transform: rotate(45deg);
+  }  
+`;
 
 export const SaveDescriptionButton = forwardRef<HTMLButtonElement, FileButtonProps & {
   inputRef: RefObject<HTMLInputElement>;
@@ -36,6 +45,7 @@ export const SaveDescriptionButton = forwardRef<HTMLButtonElement, FileButtonPro
       return (
         <Button
           ref={ref}
+          icon={DoneIcon}
           disabled={disabled}
           className={className}
           onClick={renameFile}
@@ -54,5 +64,5 @@ export const RemoveButton = ({ file, onError }: FileButtonProps) => {
     updateFile({ id: file.id, description: Object.fromEntries([[language, '']]) });
   };
 
-  return <Button onClick={removeFile} color="negative">Delete</Button>;
+  return <RotatedIconButton icon={PlusIcon} onClick={removeFile} color="negative">Remove</RotatedIconButton>;
 };

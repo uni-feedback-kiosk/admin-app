@@ -10,7 +10,7 @@ import { SaveDescriptionButton } from './Buttons';
 const StyledWrapper = styled.div`
   flex: 1;
   min-width: 15em;
-  padding-right: 5em;
+  padding-right: 4em;
   position: relative;
 `;
 
