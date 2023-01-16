@@ -66,7 +66,15 @@ export const AddToListButton = (
     updateFile({ id: file.id, description: Object.fromEntries([[language, file.filename]]) });
   };
 
-  return <Button icon={ArrowRightIcon} onClick={addFile}>Add</Button>;
+  return (
+    <Button
+      disabled={file.description[language] !== ''}
+      icon={ArrowRightIcon}
+      onClick={addFile}
+    >
+      Add
+    </Button>
+  );
 };
 
 export const DeleteButton = ({ file, onError }: FileButtonProps) => {

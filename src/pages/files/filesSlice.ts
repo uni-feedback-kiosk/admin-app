@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
+import { apiSlice } from '../../store/apiSlice';
 
 export type Language = 'ru' | 'en';
 
@@ -19,6 +20,18 @@ export const filesSlice = createSlice({
       { ...state, error: '' }
     ),
   },
+  extraReducers: (builder) => builder.addMatcher(
+    isAnyOf(
+      apiSlice.endpoints.listFiles.matchPending,
+      apiSlice.endpoints.getFile.matchPending,
+      apiSlice.endpoints.updateFile.matchPending,
+      apiSlice.endpoints.deleteFile.matchPending,
+      apiSlice.endpoints.addFile.matchPending,
+    ),
+    (state) => (
+      { ...state, error: '' }
+    ),
+  ),
 });
 
 export const { setLanguage, setError, clearError } = filesSlice.actions;

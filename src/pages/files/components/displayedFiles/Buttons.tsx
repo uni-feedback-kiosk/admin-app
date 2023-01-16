@@ -34,6 +34,12 @@ export const SaveDescriptionButton = forwardRef<HTMLButtonElement, FileButtonPro
         }
 
         const { value } = inputRef.current;
+        if (value === '') {
+          onError('Display name cannot be empty');
+          inputRef.current.focus();
+          return;
+        }
+
         updateFile({
           id: file.id,
           description: Object.fromEntries([[language, value]]),

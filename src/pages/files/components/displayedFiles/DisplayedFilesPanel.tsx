@@ -39,6 +39,10 @@ export default ({ files }: FilesPanelProps) => {
     hideDropArea();
     try {
       const file: FileInfo = JSON.parse(e.dataTransfer.getData(KioskFileType));
+      if (file.description[language] !== '') {
+        return;
+      }
+
       updateFile({ id: file.id, description: Object.fromEntries([[language, file.filename]]) });
     } catch {
       onError("Can't recognize the dropped file");

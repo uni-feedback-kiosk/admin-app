@@ -29,10 +29,18 @@ export default ({ file }: { file: FileInfo }) => {
   const dispatch = useAppDispatch();
   const inputRef = createRef<HTMLInputElement>();
   const buttonRef = createRef<HTMLButtonElement>();
-  const [isChanged, setIsChanged] = useState(false);
+  const [canChange, setCanChange] = useState(false);
 
-  const updateIsChanged = () => {
-    setIsChanged(inputRef.current?.value !== file.description[language]);
+  const updateCanChange = () => {
+    if (!inputRef.current) {
+      return;
+    }
+
+    const { value } = inputRef.current;
+
+    setCanChange(
+      value !== '' && value !== file.description[language],
+    );
   };
 
   const onKeyPressed: KeyboardEventHandler = (event) => {
@@ -47,7 +55,7 @@ export default ({ file }: { file: FileInfo }) => {
     <StyledWrapper>
       <Input
         onKeyDown={onKeyPressed}
-        onChange={updateIsChanged}
+        onChange={updateCanChange}
         ref={inputRef}
         type="text"
         placeholder="Display name"
@@ -55,11 +63,11 @@ export default ({ file }: { file: FileInfo }) => {
       />
       <StyledSaveButton
         ref={buttonRef}
-        disabled={!isChanged}
+        disabled={!canChange}
         file={file}
         inputRef={inputRef}
         onError={(error) => dispatch(setError(error))}
-        onSuccess={() => setIsChanged(false)}
+        onSuccess={() => setCanChange(false)}
       />
     </StyledWrapper>
   );
