@@ -1,5 +1,6 @@
 import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { apiSlice } from '../../store/apiSlice';
+import { FileInfo } from '../../store/models';
 
 export type Language = 'ru' | 'en';
 
@@ -8,6 +9,7 @@ export const filesSlice = createSlice({
   initialState: {
     language: <Language>'ru',
     error: '',
+    highlightedFile: '',
   },
   reducers: {
     setLanguage: (state, { payload }: PayloadAction<Language>) => (
@@ -18,6 +20,12 @@ export const filesSlice = createSlice({
     ),
     clearError: (state) => (
       { ...state, error: '' }
+    ),
+    highlightFile: (state, { payload }: PayloadAction<FileInfo>) => (
+      { ...state, highlightedFile: payload.id }
+    ),
+    clearHighlight: (state) => (
+      { ...state, highlightedFile: '' }
     ),
   },
   extraReducers: (builder) => builder.addMatcher(
@@ -31,7 +39,18 @@ export const filesSlice = createSlice({
     (state) => (
       { ...state, error: '' }
     ),
+  ).addMatcher(
+    apiSlice.endpoints.updateFile.matchFulfilled,
+    (state, { payload }) => (
+      { ...state, highlightedFile: payload.id }
+    ),
   ),
 });
 
-export const { setLanguage, setError, clearError } = filesSlice.actions;
+export const {
+  setLanguage,
+  setError,
+  clearError,
+  highlightFile,
+  clearHighlight,
+} = filesSlice.actions;

@@ -1,25 +1,16 @@
-import styled from 'styled-components';
 import { useBoolean } from 'usehooks-ts';
 import { DragEvent } from 'react';
-import { RemoveButton } from './Buttons';
-import DisplayNameInput from './DisplayNameInput';
 import LanguageTabs from './LanguageTabs';
 import DropArea from '../DropArea';
 import { FilesPanelProps } from '../FilesPanelProps';
-import FileRow from '../FileRow';
-import { setError, setLanguage } from '../../filesSlice';
+import { highlightFile, setError, setLanguage } from '../../filesSlice';
 import Panel from '../../../../components/ui/Panel';
 import { useAppDispatch, useAppSelector } from '../../../../store/store';
 import { KioskFileType } from '../../../../constants';
 import { useUpdateFileMutation } from '../../../../store/apiSlice';
 import useNotifyOnError from '../../../../hooks/useNotifyOnError';
 import { FileInfo } from '../../../../store/models';
-
-const StyledFilename = styled.div`
-  flex: 2;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-`;
+import DisplayedFileRow from './DisplayedFileRow';
 
 export default ({ files }: FilesPanelProps) => {
   const language = useAppSelector((store) => store.files.language);
@@ -40,6 +31,7 @@ export default ({ files }: FilesPanelProps) => {
     try {
       const file: FileInfo = JSON.parse(e.dataTransfer.getData(KioskFileType));
       if (file.description[language] !== '') {
+        dispatch(highlightFile(file));
         return;
       }
 
@@ -69,11 +61,7 @@ export default ({ files }: FilesPanelProps) => {
             ({ description }) => description[language] !== '',
           ).map(
             (file) => (
-              <FileRow key={file.id}>
-                <StyledFilename>{file.filename}</StyledFilename>
-                <DisplayNameInput file={file} />
-                <RemoveButton file={file} onError={onError} />
-              </FileRow>
+              <DisplayedFileRow file={file} key={file.id} />
             ),
           )}
         </>
