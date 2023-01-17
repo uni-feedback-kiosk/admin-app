@@ -6,7 +6,7 @@ import { FileInfo } from '../../../../store/models';
 import { AddToListButton, DeleteButton, DownloadButton } from './Buttons';
 import { setError } from '../../filesSlice';
 import { useAppDispatch } from '../../../../store/store';
-import FileRow from '../FileRow';
+import FileRow from '../row/FileRow';
 import useFilteredKeyDown from '../../../../hooks/useFilteredKeyDown';
 
 const StyledWrapper = styled.div`
@@ -79,6 +79,7 @@ export default ({ file }: { file: FileInfo }) => {
       () => (
         document.body.removeChild(dragImage)
       ),
+      { once: true },
     );
   };
 

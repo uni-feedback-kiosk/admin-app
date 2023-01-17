@@ -11,6 +11,7 @@ import { useUpdateFileMutation } from '../../../../store/apiSlice';
 import useNotifyOnError from '../../../../hooks/useNotifyOnError';
 import { FileInfo } from '../../../../store/models';
 import DisplayedFileRow from './DisplayedFileRow';
+import RowCollection from '../row/RowCollection';
 
 export default ({ files }: FilesPanelProps) => {
   const language = useAppSelector((store) => store.files.language);
@@ -57,13 +58,15 @@ export default ({ files }: FilesPanelProps) => {
             hide={hideDropArea}
             onDrop={onDrop}
           />
-          {files.filter(
-            ({ description }) => description[language] !== '',
-          ).map(
-            (file) => (
-              <DisplayedFileRow file={file} key={file.id} />
-            ),
-          )}
+          <RowCollection>
+            {files.filter(
+              ({ description }) => description[language] !== '',
+            ).map(
+              (file) => (
+                <DisplayedFileRow file={file} key={file.id} />
+              ),
+            )}
+          </RowCollection>
         </>
       )}
     />

@@ -1,11 +1,13 @@
 import styled, { css } from 'styled-components';
-import { useEffect } from 'react';
+import { createRef, useEffect } from 'react';
+import { useIntersectionObserver } from 'usehooks-ts';
 import { RemoveButton } from './Buttons';
 import DisplayNameInput from './DisplayNameInput';
-import FileRow from '../FileRow';
+import FileRow from '../row/FileRow';
 import { FileInfo } from '../../../../store/models';
 import { useAppSelector, useAppDispatch } from '../../../../store/store';
 import { clearHighlight, setError } from '../../filesSlice';
+import Highlight from '../../../../components/animation/Highlight';
 
 const StyledFilename = styled.div`
   flex: 2;
@@ -18,34 +20,47 @@ interface HighlightedRowProps {
 }
 
 const rowHighlight = ({ highlighted }: HighlightedRowProps) => highlighted ? css`
-  background: #fd0;
+  animation-name: ${Highlight};
 ` : css``;
 
 const StyledFileRow = styled(FileRow)<HighlightedRowProps>`
-  transition: all 0.2s ease-in;
+  animation-duration: 1s;
   ${rowHighlight}
 `;
 
 export default ({ file }: { file: FileInfo }) => {
   const highlightedFile = useAppSelector((store) => store.files.highlightedFile);
   const dispatch = useAppDispatch();
+  const rowRef = createRef<HTMLDivElement>();
+  const entry = useIntersectionObserver(rowRef, {});
+  const isVisible = entry?.isIntersecting;
 
   useEffect(() => {
-    if (!highlightedFile) {
+    if (highlightedFile !== file.id) {
       return () => {};
     }
 
-    const id = setTimeout(() => dispatch(clearHighlight()), 200);
+    const id = setTimeout(() => dispatch(clearHighlight()), 1000);
 
     return () => {
       clearTimeout(id);
     };
   }, [highlightedFile]);
 
+  useEffect(() => {
+    if (highlightedFile !== file.id || !rowRef.current || isVisible) {
+      return;
+    }
+
+    const { offsetParent, offsetTop } = rowRef.current;
+
+    offsetParent?.scrollTo({ top: offsetTop, behavior: 'smooth' });
+  }, [highlightedFile]);
+
   const onError = (err: string) => dispatch(setError(err));
 
   return (
-    <StyledFileRow highlighted={file.id === highlightedFile}>
+    <StyledFileRow ref={rowRef} highlighted={file.id === highlightedFile}>
       <StyledFilename>{file.filename}</StyledFilename>
       <DisplayNameInput file={file} />
       <RemoveButton file={file} onError={onError} />

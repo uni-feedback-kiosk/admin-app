@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors } from '../../../constants';
+import { colors } from '../../../../constants';
 
 export default styled.div`
   display: flex;

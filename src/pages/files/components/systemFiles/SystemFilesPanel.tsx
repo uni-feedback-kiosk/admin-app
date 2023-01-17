@@ -9,6 +9,7 @@ import Panel from '../../../../components/ui/Panel';
 import useNotifyOnError from '../../../../hooks/useNotifyOnError';
 import { useAddFileMutation } from '../../../../store/apiSlice';
 import { useAppDispatch } from '../../../../store/store';
+import RowCollection from '../row/RowCollection';
 
 export default ({ files }: FilesPanelProps) => {
   const dispatch = useAppDispatch();
@@ -56,11 +57,13 @@ export default ({ files }: FilesPanelProps) => {
             hide={hideDropArea}
             onDrop={onDrop}
           />
-          {files.map(
-            (file) => (
-              <SystemFileRow key={file.id} file={file} />
-            ),
-          )}
+          <RowCollection>
+            {files.map(
+              (file) => (
+                <SystemFileRow key={file.id} file={file} />
+              ),
+            )}
+          </RowCollection>
         </>
     )}
     />

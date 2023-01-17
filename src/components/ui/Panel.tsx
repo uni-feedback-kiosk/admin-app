@@ -30,13 +30,6 @@ const PanelBody = styled.div`
   position: relative;
   background: ${colors.light_grey};
   border-radius: 0.5em;
-  padding: 0.5em;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-  justify-content: start;
-  align-items: stretch;
-  overflow-y: scroll;
   height: 100%;
   min-height: 0;
   box-sizing: border-box;
