@@ -1,6 +1,6 @@
 {
   "extends": ["stylelint-config-recommended", "stylelint-config-styled-components"],
-  "ignoreFiles": ["./*.ts", "node_modules/**/*"],
+  "ignoreFiles": ["**/*.ts", "node_modules/**/*"],
   "overrides": [
     {
       "files": ["**/*.tsx"],
