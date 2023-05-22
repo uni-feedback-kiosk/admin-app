@@ -1,0 +1,15 @@
+# Node.js modules
+node_modules
+
+# Built project files
+dist
+build
+
+# Git
+.git
+
+# VS Code
+.vscode
+
+# Markdown (just in case)
+*.md

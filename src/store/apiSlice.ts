@@ -49,7 +49,7 @@ export const apiSlice = createApi({
         // Download file
         const result = await baseQuery({
           url: `/${fileId}`,
-          responseHandler: (response) => response.blob(),
+          responseHandler: (response: Response) => response.blob(),
         });
         if (result.error) {
           return result;
