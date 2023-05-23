@@ -17,12 +17,15 @@ import {
   useLazyGetFileQuery,
   useUpdateFileMutation,
 } from '../../../store/apiSlice';
+import { useAppSelector } from '../../../store/store';
 
-const SystemFileRow = ({ file, language }: { file: FileInfo; language: Language }) => {
+const SystemFileRow = ({ file }: { file: FileInfo }) => {
   const { isOpen: isButtonRowShown, onToggle: onToggleButtons } = useDisclosure();
   const [deleteFile, { isLoading: isDeleting }] = useDeleteFileMutation();
   const [openFile, { isLoading: isOpening }] = useLazyGetFileQuery();
   const [updateFile, { isLoading: isUpdating }] = useUpdateFileMutation();
+
+  const language = useAppSelector((state) => state.files.language);
 
   const onDelete = useCallback(async () => {
     await deleteFile(file.id);
@@ -60,7 +63,7 @@ const SystemFileRow = ({ file, language }: { file: FileInfo; language: Language 
         <CardBody>{file.filename}</CardBody>
       </Card>
       <Collapse in={isButtonRowShown}>
-        <HStack padding="2">
+        <HStack padding="2" justifyContent="space-evenly">
           <Button
             leftIcon={<Icon boxSize={6} as={MdFileOpen} />}
             onClick={onOpen}
@@ -77,8 +80,8 @@ const SystemFileRow = ({ file, language }: { file: FileInfo; language: Language 
             Add
           </Button>
           <Button
-            leftIcon={<Icon boxSize={6} as={MdDelete} />}
             colorScheme="red"
+            leftIcon={<Icon boxSize={6} as={MdDelete} />}
             isLoading={isDeleting}
             onClick={onDelete}
           >
