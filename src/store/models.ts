@@ -3,6 +3,8 @@ export interface AuthBody {
   password: string;
 }
 
+export type Language = 'ru' | 'en';
+
 export interface AuthResponse {
   access_token: string;
 }
@@ -14,10 +16,9 @@ export interface FileInfo {
   description: FileDescription;
 }
 
-export interface FileDescription {
-  ru: string;
-  en: string;
-}
+export type FileDescription = {
+  [x in Language]: string;
+};
 
 export type FileDownloadQuery = Pick<FileInfo, 'id' | 'filename'>;
 

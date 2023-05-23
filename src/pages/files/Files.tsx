@@ -1,6 +1,7 @@
-import { Card, CardBody, Flex, VStack } from '@chakra-ui/react';
+import { Card, CardBody, CardHeader, Center, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../store/store';
+import SystemFiles from './components/SystemFIles';
 
 const Files = () => {
   const isAuthenticated = useAppSelector((state) => state.auth.access_token !== undefined);
@@ -9,15 +10,7 @@ const Files = () => {
     return <Navigate to="/login" />;
   }
 
-  return (
-    <Flex alignItems="center" direction="column" height="100%">
-      <VStack flex="1" justifyContent="center" gap="10">
-        <Card borderRadius="xl">
-          <CardBody>Files will be here soon</CardBody>
-        </Card>
-      </VStack>
-    </Flex>
-  );
+  return <SystemFiles />;
 };
 
 export default Files;

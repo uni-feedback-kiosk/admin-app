@@ -19,7 +19,7 @@ const Layout = () => {
         <Button
           onClick={onClick}
           colorScheme="red"
-          leftIcon={<Icon as={MdLogout} />}
+          leftIcon={<Icon boxSize={6} as={MdLogout} />}
           visibility={isAuthenticated ? 'visible' : 'hidden'}
         >
           Log out
