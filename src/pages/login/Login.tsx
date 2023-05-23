@@ -1,4 +1,4 @@
-import { Button, Center, Input, VStack } from '@chakra-ui/react';
+import { Button, Card, CardBody, Center, Input, VStack } from '@chakra-ui/react';
 import { useCallback, useRef } from 'react';
 import { Form, Navigate } from 'react-router-dom';
 import { useAuthenticateMutation } from '../../store/apiSlice';
@@ -29,12 +29,16 @@ const Login = () => {
 
   return (
     <Center as={Form} onSubmit={onSubmit} height="100%">
-      <VStack>
-        <Input ref={usernameRef} placeholder="Login" isRequired />
-        <Input ref={passwordRef} placeholder="Password" type="password" isRequired />
-        <FormError {...{ isError, error }} />
-        <Button type="submit">Log in</Button>
-      </VStack>
+      <Card bg="message-link">
+        <CardBody>
+          <VStack>
+            <Input ref={usernameRef} placeholder="Login" isRequired />
+            <Input ref={passwordRef} placeholder="Password" type="password" isRequired />
+            <FormError {...{ isError, error }} />
+            <Button type="submit">Log in</Button>
+          </VStack>
+        </CardBody>
+      </Card>
     </Center>
   );
 };
