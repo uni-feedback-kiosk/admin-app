@@ -29,7 +29,8 @@ const LanguageFiles = () => {
       gap="4"
       variant="solid-rounded"
       colorScheme="green"
-      height="100%"
+      height="0"
+      minHeight="100%"
       isFitted
     >
       <TabList gap="6">
@@ -47,8 +48,8 @@ const LanguageFiles = () => {
       </TabList>
       <TabPanels flex="1">
         {languageNames.map(([language]) => (
-          <TabPanel key={language} height="100%" padding="0">
-            <Card height="100%" variant="filled">
+          <TabPanel key={language} height="0" minHeight="100%" padding="0">
+            <Card height="100%" variant="filled" overflowY="auto">
               <CardBody>
                 <LanguageFilesList language={language as Language} />
               </CardBody>

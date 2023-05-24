@@ -26,7 +26,7 @@ const SystemFiles = () => {
   }, [uploadFile]);
 
   return (
-    <VStack align="stretch" height="100%">
+    <VStack align="stretch" height="0" minHeight="100%">
       <HStack>
         <Text fontSize="lg">Files in the system</Text>
         <Spacer />
@@ -46,7 +46,7 @@ const SystemFiles = () => {
           />
         </Button>
       </HStack>
-      <Card variant="filled" flex="1">
+      <Card variant="filled" flex="1" height="0" overflowY="auto">
         <CardBody>
           {isLoading && <Spinner size="xl" />}
           {data && (
