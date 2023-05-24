@@ -26,7 +26,7 @@ const LanguageFiles = () => {
     <Tabs
       display="flex"
       flexDirection="column"
-      gap="4"
+      gap="2"
       variant="solid-rounded"
       colorScheme="green"
       height="0"

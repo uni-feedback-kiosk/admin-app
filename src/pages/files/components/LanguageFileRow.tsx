@@ -1,10 +1,24 @@
-import { Card, CardBody, Flex, HStack, Button, Icon, Text, Input } from '@chakra-ui/react';
+import {
+  Card,
+  CardBody,
+  Flex,
+  HStack,
+  Button,
+  Icon,
+  Text,
+  Input,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { MdClose, MdSave } from 'react-icons/md';
 import { useCallback, useRef, useState } from 'react';
 import { FileInfo, Language } from '../../../store/models';
 import { useUpdateFileMutation } from '../../../store/apiSlice';
 
 const LanguageFileRow = ({ file, language }: { file: FileInfo; language: Language }) => {
+  const inputTextColor = useColorModeValue('darkgray', 'white');
+  const unsavedInputBackgroundColor = useColorModeValue('yellow.100', 'yellow.700');
+  const inputBackgroundColor = useColorModeValue('white', 'darkgray');
+  const rowColor = useColorModeValue('green.main', 'green.600');
   const inputRef = useRef<HTMLInputElement>(null);
   const [updateFile] = useUpdateFileMutation();
   const [canSave, setCanSave] = useState(false);
@@ -45,18 +59,20 @@ const LanguageFileRow = ({ file, language }: { file: FileInfo; language: Languag
       bgColor="white"
       borderRadius="md"
       outline="0.15em solid"
-      outlineColor="green.500"
+      outlineColor={rowColor}
     >
-      <Card variant="filled" size="sm" bgColor="green.main" color="white">
+      <Card variant="filled" size="sm" bgColor={rowColor} color="white">
         <CardBody>
           <HStack>
-            <Text flex="1">{file.filename}</Text>
+            <Text flex="1" noOfLines={1}>
+              {file.filename}
+            </Text>
             <Input
               ref={inputRef}
               onChange={onNameChange}
               placeholder="Display name"
-              bgColor={isNameChanged ? 'yellow.100' : 'white'}
-              color="darkgray"
+              bgColor={isNameChanged ? unsavedInputBackgroundColor : inputBackgroundColor}
+              color={inputTextColor}
               flex="1"
               defaultValue={file.description[language]}
             />

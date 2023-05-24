@@ -13,10 +13,10 @@ const Files = () => {
 
   return (
     <HStack margin="auto" maxWidth="8xl" spacing="6" height="100%" align="stretch">
-      <Box flex="1">
+      <Box flex="1" width="0">
         <SystemFiles />
       </Box>
-      <Box flex="2">
+      <Box flex="2" width="0">
         <LanguageFiles />
       </Box>
     </HStack>

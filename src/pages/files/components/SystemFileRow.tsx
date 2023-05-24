@@ -7,6 +7,7 @@ import {
   HStack,
   Button,
   Icon,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { MdDelete, MdFileOpen } from 'react-icons/md';
 import { FiArrowRight } from 'react-icons/fi';
@@ -20,6 +21,8 @@ import {
 import { useAppSelector } from '../../../store/store';
 
 const SystemFileRow = ({ file }: { file: FileInfo }) => {
+  const rowBackgroundColor = useColorModeValue('white', 'darkgray');
+  const rowColor = useColorModeValue('green.main', 'green.600');
   const { isOpen: isButtonRowShown, onToggle: onToggleButtons } = useDisclosure();
   const [deleteFile, { isLoading: isDeleting }] = useDeleteFileMutation();
   const [openFile, { isLoading: isOpening }] = useLazyGetFileQuery();
@@ -46,16 +49,16 @@ const SystemFileRow = ({ file }: { file: FileInfo }) => {
     <Flex
       direction="column"
       align="stretch"
-      bgColor="white"
+      bgColor={rowBackgroundColor}
       borderRadius="md"
       outline="0.15em solid"
-      outlineColor="green.500"
+      outlineColor={rowColor}
     >
       <Card
         cursor="pointer"
         variant="filled"
         size="sm"
-        bgColor="green.main"
+        bgColor={rowColor}
         color="white"
         userSelect="none"
         onClick={onToggleButtons}
