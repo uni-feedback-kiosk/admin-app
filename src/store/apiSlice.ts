@@ -68,7 +68,7 @@ export const apiSlice = createApi({
         return { data: null };
       },
     }),
-    addFile: builder.mutation<FileInfo, Blob>({
+    uploadFile: builder.mutation<FileInfo, Blob>({
       query: (file) => {
         const formData = new FormData();
         formData.append('file', file);
@@ -127,7 +127,7 @@ export const {
   useAuthenticateMutation,
   useListFilesQuery,
   useLazyGetFileQuery,
-  useAddFileMutation,
+  useUploadFileMutation,
   useUpdateFileMutation,
   useDeleteFileMutation,
 } = apiSlice;
