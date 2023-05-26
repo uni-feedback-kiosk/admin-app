@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { MdDelete, MdFileOpen } from 'react-icons/md';
 import { FiArrowRight } from 'react-icons/fi';
-import { useCallback } from 'react';
+import { useCallback, DragEventHandler, memo } from 'react';
 import { FileInfo, Language } from '../../../store/models';
 import {
   useDeleteFileMutation,
@@ -19,8 +19,15 @@ import {
   useUpdateFileMutation,
 } from '../../../store/apiSlice';
 import { useAppSelector } from '../../../store/store';
+import KioskFileType from '../KioskFileType';
 
-const SystemFileRow = ({ file }: { file: FileInfo }) => {
+interface SystemFileRowProps {
+  file: FileInfo;
+  dragPreview: HTMLElement | null;
+  onDragStarted: (file: FileInfo) => void;
+}
+
+const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowProps) => {
   const rowBackgroundColor = useColorModeValue('white', 'darkgray');
   const rowColor = useColorModeValue('green.main', 'green.600');
   const { isOpen: isButtonRowShown, onToggle: onToggleButtons } = useDisclosure();
@@ -45,6 +52,23 @@ const SystemFileRow = ({ file }: { file: FileInfo }) => {
     });
   }, [updateFile, file, language]);
 
+  const onCardDragStart = useCallback<DragEventHandler>(
+    (event) => {
+      onDragStarted(file);
+      event.dataTransfer.setData(KioskFileType, JSON.stringify(file));
+
+      // The value below can be only changed by assignment
+      // eslint-disable-next-line no-param-reassign
+      event.dataTransfer.effectAllowed = 'link';
+
+      if (!dragPreview) {
+        return;
+      }
+      event.dataTransfer.setDragImage(dragPreview, dragPreview.offsetWidth / 2, 40);
+    },
+    [dragPreview, file, onDragStarted],
+  );
+
   return (
     <Flex
       direction="column"
@@ -55,6 +79,8 @@ const SystemFileRow = ({ file }: { file: FileInfo }) => {
       outlineColor={rowColor}
     >
       <Card
+        zIndex={10}
+        position="relative"
         cursor="pointer"
         variant="filled"
         size="sm"
@@ -62,38 +88,42 @@ const SystemFileRow = ({ file }: { file: FileInfo }) => {
         color="white"
         userSelect="none"
         onClick={onToggleButtons}
+        onDragStart={onCardDragStart}
+        draggable={dragPreview !== undefined}
       >
-        <CardBody>{file.filename}</CardBody>
+        <CardBody>{file?.filename}</CardBody>
       </Card>
-      <Collapse in={isButtonRowShown}>
-        <HStack padding="2" justifyContent="space-evenly">
-          <Button
-            leftIcon={<Icon boxSize={6} as={MdFileOpen} />}
-            onClick={onOpen}
-            isLoading={isOpening}
-          >
-            Open
-          </Button>
-          <Button
-            leftIcon={<Icon boxSize={6} as={FiArrowRight} />}
-            isDisabled={file.description[language] !== ''}
-            onClick={onAdd}
-            isLoading={isUpdating}
-          >
-            Add
-          </Button>
-          <Button
-            colorScheme="red"
-            leftIcon={<Icon boxSize={6} as={MdDelete} />}
-            isLoading={isDeleting}
-            onClick={onDelete}
-          >
-            Delete
-          </Button>
-        </HStack>
-      </Collapse>
+      {file && (
+        <Collapse in={isButtonRowShown}>
+          <HStack padding="2" justifyContent="space-evenly">
+            <Button
+              leftIcon={<Icon boxSize={6} as={MdFileOpen} />}
+              onClick={onOpen}
+              isLoading={isOpening}
+            >
+              Open
+            </Button>
+            <Button
+              leftIcon={<Icon boxSize={6} as={FiArrowRight} />}
+              isDisabled={file.description[language] !== ''}
+              onClick={onAdd}
+              isLoading={isUpdating}
+            >
+              Add
+            </Button>
+            <Button
+              colorScheme="red"
+              leftIcon={<Icon boxSize={6} as={MdDelete} />}
+              isLoading={isDeleting}
+              onClick={onDelete}
+            >
+              Delete
+            </Button>
+          </HStack>
+        </Collapse>
+      )}
     </Flex>
   );
-};
+});
 
 export default SystemFileRow;

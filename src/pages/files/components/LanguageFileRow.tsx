@@ -10,11 +10,17 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { MdClose, MdSave } from 'react-icons/md';
-import { useCallback, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useAnimate } from 'framer-motion';
 import { FileInfo, Language } from '../../../store/models';
 import { useUpdateFileMutation } from '../../../store/apiSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { fileDropHandled } from '../../../store/actions';
 
-const LanguageFileRow = ({ file, language }: { file: FileInfo; language: Language }) => {
+const LanguageFileRow = memo(({ file, language }: { file: FileInfo; language: Language }) => {
+  const isHighlighted = useAppSelector((state) => state.files.droppedFile?.id === file.id);
+  const dispatch = useAppDispatch();
+  const [scope, animate] = useAnimate<HTMLDivElement>();
   const inputTextColor = useColorModeValue('darkgray', 'white');
   const unsavedInputBackgroundColor = useColorModeValue('yellow.100', 'yellow.700');
   const inputBackgroundColor = useColorModeValue('white', 'darkgray');
@@ -23,6 +29,22 @@ const LanguageFileRow = ({ file, language }: { file: FileInfo; language: Languag
   const [updateFile] = useUpdateFileMutation();
   const [canSave, setCanSave] = useState(false);
   const [isNameChanged, setIsNameChanged] = useState(false);
+
+  useEffect(() => {
+    if (!isHighlighted) {
+      return;
+    }
+    dispatch(fileDropHandled());
+    const element = scope.current;
+    element.scrollIntoView({ behavior: 'smooth' });
+    animate(
+      scope.current,
+      {
+        filter: [null, 'brightness(1.5) grayscale(0.7)', 'brightness(1) grayscale(0)'],
+      },
+      { duration: 1 },
+    );
+  }, [animate, dispatch, isHighlighted, scope]);
 
   const onNameChange = useCallback(() => {
     const isChanged = inputRef.current?.value !== file.description[language];
@@ -56,12 +78,11 @@ const LanguageFileRow = ({ file, language }: { file: FileInfo; language: Languag
     <Flex
       direction="column"
       align="stretch"
-      bgColor="white"
       borderRadius="md"
       outline="0.15em solid"
       outlineColor={rowColor}
     >
-      <Card variant="filled" size="sm" bgColor={rowColor} color="white">
+      <Card ref={scope} variant="filled" size="sm" bgColor={rowColor} color="white">
         <CardBody>
           <HStack>
             <Text flex="1" noOfLines={1}>
@@ -96,6 +117,6 @@ const LanguageFileRow = ({ file, language }: { file: FileInfo; language: Languag
       </Card>
     </Flex>
   );
-};
+});
 
 export default LanguageFileRow;
