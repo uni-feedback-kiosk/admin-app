@@ -20,13 +20,7 @@ import { useUpdateFileMutation } from '../../../store/apiSlice';
 import KioskFileType from '../KioskFileType';
 import DropArea from './DropArea';
 import useFileDrag from '../hooks/useFileDrag';
-
-const languages: Record<Language, string> = {
-  en: 'English',
-  ru: 'Russian',
-};
-
-const languageNames = Object.entries(languages);
+import { languageNames } from '../Languages';
 
 const LanguageFiles = () => {
   const dispatch = useAppDispatch();

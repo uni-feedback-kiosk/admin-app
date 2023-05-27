@@ -8,6 +8,9 @@ import {
   Button,
   Icon,
   useColorModeValue,
+  Text,
+  Spacer,
+  Badge,
 } from '@chakra-ui/react';
 import { MdDelete, MdFileOpen } from 'react-icons/md';
 import { FiArrowRight } from 'react-icons/fi';
@@ -35,7 +38,7 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
   const [openFile, { isLoading: isOpening }] = useLazyGetFileQuery();
   const [updateFile, { isLoading: isUpdating }] = useUpdateFileMutation();
 
-  const language = useAppSelector((state) => state.files.language);
+  const currentLanguage = useAppSelector((state) => state.files.language);
 
   const onDelete = useCallback(async () => {
     await deleteFile(file.id);
@@ -48,9 +51,12 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
   const onAdd = useCallback(async () => {
     await updateFile({
       id: file.id,
-      description: Object.fromEntries([[language, file.filename]]) as Record<Language, string>,
+      description: Object.fromEntries([[currentLanguage, file.filename]]) as Record<
+        Language,
+        string
+      >,
     });
-  }, [updateFile, file, language]);
+  }, [updateFile, file, currentLanguage]);
 
   const onCardDragStart = useCallback<DragEventHandler>(
     (event) => {
@@ -86,7 +92,19 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
         onDragStart={onCardDragStart}
         draggable={dragPreview !== undefined}
       >
-        <CardBody>{file?.filename}</CardBody>
+        <CardBody>
+          <HStack>
+            <Text noOfLines={1}>{file.filename}</Text>
+            <Spacer />
+            {Object.entries(file.description)
+              .filter(([_, description]) => description !== '')
+              .map(([language]) => (
+                <Badge variant="solid" colorScheme="gray">
+                  {language}
+                </Badge>
+              ))}
+          </HStack>
+        </CardBody>
       </Card>
       {file && (
         <Collapse in={isButtonRowShown}>
@@ -100,7 +118,7 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
             </Button>
             <Button
               leftIcon={<Icon boxSize={6} as={FiArrowRight} />}
-              isDisabled={file.description[language] !== ''}
+              isDisabled={file.description[currentLanguage] !== ''}
               onClick={onAdd}
               isLoading={isUpdating}
             >
