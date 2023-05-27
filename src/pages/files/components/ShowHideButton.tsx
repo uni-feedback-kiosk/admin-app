@@ -30,6 +30,7 @@ const ShowHideButton = ({ file }: { file: FileInfo }) => {
       leftIcon={<Icon boxSize={6} as={isShown ? IoMdEye : IoMdEyeOff} />}
       onClick={onShowHide}
       isLoading={isUpdating}
+      opacity={isShown ? 1 : 0.5}
     >
       {isShown ? 'Hide' : 'Show'} ({language})
     </Button>
