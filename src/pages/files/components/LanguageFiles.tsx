@@ -1,6 +1,7 @@
 import {
   Card,
   CardBody,
+  Icon,
   Spinner,
   Tab,
   TabList,
@@ -8,9 +9,9 @@ import {
   TabPanels,
   Tabs,
   Text,
-  useBoolean,
 } from '@chakra-ui/react';
 import { DragEventHandler, useCallback } from 'react';
+import { MdAdd } from 'react-icons/md';
 import { FileInfo, Language } from '../../../store/models';
 import LanguageFilesList from './LanguageFilesList';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
@@ -18,6 +19,7 @@ import { fileDrop, filesLanguageSwitched } from '../../../store/actions';
 import { useUpdateFileMutation } from '../../../store/apiSlice';
 import KioskFileType from '../KioskFileType';
 import DropArea from './DropArea';
+import useFileDrag from '../hooks/useFileDrag';
 
 const languages: Record<Language, string> = {
   en: 'English',
@@ -30,10 +32,14 @@ const LanguageFiles = () => {
   const dispatch = useAppDispatch();
   const currentLanguage = useAppSelector((state) => state.files.language);
   const [updateFile, { isLoading: isAddingFile }] = useUpdateFileMutation();
-  const [isDropAreaShown, { on: showDropArea, off: hideDropArea }] = useBoolean();
+  const [isDropAreaShown, { show: showDropArea, hide: hideDropArea }] = useFileDrag({
+    fileTypeFilter: KioskFileType,
+    dropEffect: 'link',
+  });
 
   const onFileDropped = useCallback<DragEventHandler>(
     async (event) => {
+      event.preventDefault();
       const file = JSON.parse(event.dataTransfer.getData(KioskFileType)) as FileInfo;
 
       hideDropArea();
@@ -93,7 +99,14 @@ const LanguageFiles = () => {
               onDrop={onFileDropped}
               fileType={KioskFileType}
             >
-              {isAddingFile ? <Spinner size="xl" /> : <Text>Drop the file to add it</Text>}
+              {isAddingFile ? (
+                <Spinner size="xl" />
+              ) : (
+                <>
+                  <Icon boxSize={20} as={MdAdd} />
+                  <Text>Drop the file to add it</Text>
+                </>
+              )}
             </DropArea>
             <Card onDragEnter={showDropArea} height="100%" variant="filled" overflowY="auto">
               <CardBody>

@@ -1,7 +1,8 @@
 import {
+  Box,
+  BoxProps,
   Center,
   Fade,
-  FlexProps,
   SystemStyleObject,
   forwardRef,
   useColorModeValue,
@@ -16,10 +17,10 @@ interface DropAreaProps {
   children: ReactNode;
 }
 
-const DropArea = forwardRef<FlexProps & DropAreaProps, 'div'>(
+const DropArea = forwardRef<BoxProps & DropAreaProps, 'div'>(
   ({ children, isShown, fileType, onDragLeave, onDrop, ...props }, ref) => {
     const color = useColorModeValue('green.900', 'green.50');
-    const bgColor = useColorModeValue('green.200', 'green.800');
+    const bgColor = useColorModeValue('gray.200', 'gray.800');
 
     const onDragOver = useCallback<DragEventHandler>(
       (event) => {
@@ -35,15 +36,15 @@ const DropArea = forwardRef<FlexProps & DropAreaProps, 'div'>(
         content: `""`,
         position: 'absolute',
         inset: 0,
-        opacity: 0.3,
+        opacity: 0.5,
+        zIndex: -1,
         bgColor,
       }),
       [bgColor],
     );
 
     return (
-      <Center
-        flexDirection="column"
+      <Box
         as={Fade}
         in={isShown}
         _before={before}
@@ -61,8 +62,10 @@ const DropArea = forwardRef<FlexProps & DropAreaProps, 'div'>(
         {...props}
         {...{ ref, onDragOver, onDrop, onDragLeave }}
       >
-        {children}
-      </Center>
+        <Center pointerEvents="none" flexDirection="column" height="100%">
+          {children}
+        </Center>
+      </Box>
     );
   },
 );

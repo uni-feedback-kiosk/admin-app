@@ -9,13 +9,17 @@ import {
   Button,
   Icon,
   Input,
+  Box,
 } from '@chakra-ui/react';
-import { MdFileCopy, MdUpload } from 'react-icons/md';
-import { useRef, useCallback, useState } from 'react';
+import { MdUpload } from 'react-icons/md';
+import { useRef, useCallback, useState, DragEventHandler } from 'react';
 import { useUploadFileMutation, useListFilesQuery } from '../../../store/apiSlice';
 import SystemFileRow from './SystemFileRow';
 import { FileInfo } from '../../../store/models';
 import DragPreview from './DragPreview';
+import { OSFile } from '../KioskFileType';
+import DropArea from './DropArea';
+import useFileDrag from '../hooks/useFileDrag';
 
 const SystemFiles = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -23,6 +27,25 @@ const SystemFiles = () => {
   const { data, isLoading } = useListFilesQuery();
   const [draggedFile, setDraggedFile] = useState<FileInfo>();
   const dragPreviewRef = useRef<HTMLDivElement>(null);
+
+  const [isDropAreaShown, { show: showDropArea, hide: hideDropArea }] = useFileDrag({
+    fileTypeFilter: OSFile,
+    dropEffect: 'copy',
+  });
+
+  const onFileDropped = useCallback<DragEventHandler>(
+    async (event) => {
+      event.preventDefault();
+
+      await Promise.all(
+        [...event.dataTransfer.files]
+          .filter(({ type }) => type === 'application/pdf')
+          .map(uploadFile),
+      );
+      hideDropArea();
+    },
+    [uploadFile, hideDropArea],
+  );
 
   const onFilesSelected = useCallback(async () => {
     const files = Array.from(fileInputRef.current?.files ?? []);
@@ -51,23 +74,46 @@ const SystemFiles = () => {
             />
           </Button>
         </HStack>
-        <Card zIndex={0} variant="filled" flex="1" height="0" overflowY="auto">
-          <CardBody>
-            {isLoading && <Spinner size="xl" />}
-            {data && (
-              <VStack align="stretch">
-                {data.map((file) => (
-                  <SystemFileRow
-                    key={file.id}
-                    file={file}
-                    onDragStarted={setDraggedFile}
-                    dragPreview={dragPreviewRef.current}
-                  />
-                ))}
-              </VStack>
+        <Box flex="1" position="relative">
+          <DropArea
+            isShown={isDropAreaShown}
+            onDragLeave={hideDropArea}
+            onDrop={onFileDropped}
+            fileType={OSFile}
+          >
+            {isUploading ? (
+              <Spinner size="xl" />
+            ) : (
+              <>
+                <Icon boxSize={20} as={MdUpload} />
+                <Text>Drop the files to upload them</Text>
+              </>
             )}
-          </CardBody>
-        </Card>
+          </DropArea>
+          <Card
+            onDragEnter={showDropArea}
+            variant="filled"
+            height="0"
+            minHeight="100%"
+            overflowY="auto"
+          >
+            <CardBody>
+              {isLoading && <Spinner size="xl" />}
+              {data && (
+                <VStack align="stretch">
+                  {data.map((file) => (
+                    <SystemFileRow
+                      key={file.id}
+                      file={file}
+                      onDragStarted={setDraggedFile}
+                      dragPreview={dragPreviewRef.current}
+                    />
+                  ))}
+                </VStack>
+              )}
+            </CardBody>
+          </Card>
+        </Box>
       </VStack>
       <DragPreview ref={dragPreviewRef} file={draggedFile} />
     </>

@@ -57,10 +57,6 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
       onDragStarted(file);
       event.dataTransfer.setData(KioskFileType, JSON.stringify(file));
 
-      // The value below can be only changed by assignment
-      // eslint-disable-next-line no-param-reassign
-      event.dataTransfer.effectAllowed = 'link';
-
       if (!dragPreview) {
         return;
       }
@@ -79,7 +75,6 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
       outlineColor={rowColor}
     >
       <Card
-        zIndex={10}
         position="relative"
         cursor="pointer"
         variant="filled"
