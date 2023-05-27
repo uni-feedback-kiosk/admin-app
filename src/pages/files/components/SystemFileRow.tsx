@@ -13,16 +13,11 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { MdDelete, MdFileOpen } from 'react-icons/md';
-import { FiArrowRight } from 'react-icons/fi';
 import { useCallback, DragEventHandler, memo } from 'react';
-import { FileInfo, Language } from '../../../store/models';
-import {
-  useDeleteFileMutation,
-  useLazyGetFileQuery,
-  useUpdateFileMutation,
-} from '../../../store/apiSlice';
-import { useAppSelector } from '../../../store/store';
+import { FileInfo } from '../../../store/models';
+import { useDeleteFileMutation, useLazyGetFileQuery } from '../../../store/apiSlice';
 import KioskFileType from '../KioskFileType';
+import ShowHideButton from './ShowHideButton';
 
 interface SystemFileRowProps {
   file: FileInfo;
@@ -36,9 +31,6 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
   const { isOpen: isButtonRowShown, onToggle: onToggleButtons } = useDisclosure();
   const [deleteFile, { isLoading: isDeleting }] = useDeleteFileMutation();
   const [openFile, { isLoading: isOpening }] = useLazyGetFileQuery();
-  const [updateFile, { isLoading: isUpdating }] = useUpdateFileMutation();
-
-  const currentLanguage = useAppSelector((state) => state.files.language);
 
   const onDelete = useCallback(async () => {
     await deleteFile(file.id);
@@ -47,16 +39,6 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
   const onOpen = useCallback(async () => {
     await openFile(file);
   }, [openFile, file]);
-
-  const onAdd = useCallback(async () => {
-    await updateFile({
-      id: file.id,
-      description: Object.fromEntries([[currentLanguage, file.filename]]) as Record<
-        Language,
-        string
-      >,
-    });
-  }, [updateFile, file, currentLanguage]);
 
   const onCardDragStart = useCallback<DragEventHandler>(
     (event) => {
@@ -116,14 +98,7 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
             >
               Open
             </Button>
-            <Button
-              leftIcon={<Icon boxSize={6} as={FiArrowRight} />}
-              isDisabled={file.description[currentLanguage] !== ''}
-              onClick={onAdd}
-              isLoading={isUpdating}
-            >
-              Add
-            </Button>
+            <ShowHideButton file={file} />
             <Button
               colorScheme="red"
               leftIcon={<Icon boxSize={6} as={MdDelete} />}

@@ -12,6 +12,7 @@ import {
 import { MdClose, MdSave } from 'react-icons/md';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useAnimate } from 'framer-motion';
+import { IoMdEyeOff } from 'react-icons/io';
 import { FileInfo, Language } from '../../../store/models';
 import { useUpdateFileMutation } from '../../../store/apiSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/store';
@@ -52,7 +53,7 @@ const LanguageFileRow = memo(({ file, language }: { file: FileInfo; language: La
     setCanSave(inputRef.current?.value !== '' && isChanged);
   }, [file, language]);
 
-  const onRemove = useCallback(async () => {
+  const onHide = useCallback(async () => {
     await updateFile({
       id: file.id,
       description: { [language]: '' } as Record<Language, string>,
@@ -106,11 +107,11 @@ const LanguageFileRow = memo(({ file, language }: { file: FileInfo; language: La
               Save
             </Button>
             <Button
-              leftIcon={<Icon boxSize={6} as={MdClose} />}
-              onClick={onRemove}
+              leftIcon={<Icon boxSize={6} as={IoMdEyeOff} />}
+              onClick={onHide}
               colorScheme="red"
             >
-              Remove
+              Hide
             </Button>
           </HStack>
         </CardBody>

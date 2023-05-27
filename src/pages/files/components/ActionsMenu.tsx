@@ -79,9 +79,7 @@ const ActionsMenu = () => {
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Delete all files
             </AlertDialogHeader>
-            <AlertDialogBody>
-              Are you sure? This will lead to an empty kiosk FAQ page.
-            </AlertDialogBody>
+            <AlertDialogBody>Are you sure?</AlertDialogBody>
             <AlertDialogFooter>
               <Button ref={cancelDeleteRef} onClick={onClose} colorScheme="gray">
                 Cancel
