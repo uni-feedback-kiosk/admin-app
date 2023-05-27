@@ -10,6 +10,7 @@ import {
   Icon,
   Input,
   Box,
+  Center,
 } from '@chakra-ui/react';
 import { MdUpload } from 'react-icons/md';
 import { useRef, useCallback, useState, DragEventHandler } from 'react';
@@ -100,7 +101,11 @@ const SystemFiles = () => {
             overflowY="auto"
           >
             <CardBody>
-              {isLoading && <Spinner size="xl" />}
+              {isLoading && (
+                <Center height="100%">
+                  <Spinner size="xl" />
+                </Center>
+              )}
               {data && (
                 <VStack align="stretch">
                   {data.map((file) => (
