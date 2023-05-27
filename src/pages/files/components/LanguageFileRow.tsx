@@ -9,7 +9,7 @@ import {
   Input,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { MdClose, MdSave } from 'react-icons/md';
+import { MdSave } from 'react-icons/md';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useAnimate } from 'framer-motion';
 import { IoMdEyeOff } from 'react-icons/io';
