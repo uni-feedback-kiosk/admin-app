@@ -8,8 +8,9 @@ import {
   Text,
   Input,
   useColorModeValue,
+  InputGroup,
+  InputRightElement,
 } from '@chakra-ui/react';
-import { MdSave } from 'react-icons/md';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useAnimate } from 'framer-motion';
 import { IoMdEyeOff } from 'react-icons/io';
@@ -89,23 +90,23 @@ const LanguageFileRow = memo(({ file, language }: { file: FileInfo; language: La
             <Text flex="1" noOfLines={1}>
               {file.filename}
             </Text>
-            <Input
-              ref={inputRef}
-              onChange={onNameChange}
-              placeholder="Display name"
-              bgColor={isNameChanged ? unsavedInputBackgroundColor : inputBackgroundColor}
-              color={inputTextColor}
-              flex="1"
-              defaultValue={file.description[language]}
-            />
-            <Button
-              colorScheme="blue"
-              isDisabled={!canSave}
-              leftIcon={<Icon boxSize={6} as={MdSave} />}
-              onClick={onSave}
-            >
-              Save
-            </Button>
+
+            <InputGroup flex="1">
+              <Input
+                ref={inputRef}
+                onChange={onNameChange}
+                placeholder="Display name"
+                paddingRight="14"
+                bgColor={isNameChanged ? unsavedInputBackgroundColor : inputBackgroundColor}
+                color={inputTextColor}
+                defaultValue={file.description[language]}
+              />
+              <InputRightElement padding="1" width="14">
+                <Button paddingX="2" size="sm" isDisabled={!canSave} onClick={onSave}>
+                  Save
+                </Button>
+              </InputRightElement>
+            </InputGroup>
             <Button
               leftIcon={<Icon boxSize={6} as={IoMdEyeOff} />}
               onClick={onHide}
