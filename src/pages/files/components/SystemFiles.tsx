@@ -20,6 +20,7 @@ import DragPreview from './DragPreview';
 import { OSFile } from '../KioskFileType';
 import DropArea from './DropArea';
 import useFileDrag from '../hooks/useFileDrag';
+import ActionsMenu from './ActionsMenu';
 
 const SystemFiles = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -58,6 +59,7 @@ const SystemFiles = () => {
         <HStack>
           <Text fontSize="lg">Files in the system</Text>
           <Spacer />
+          <ActionsMenu />
           <Button
             leftIcon={<Icon boxSize={6} as={MdUpload} />}
             onClick={() => fileInputRef.current?.click()}

@@ -12,7 +12,14 @@ const Files = () => {
   }
 
   return (
-    <HStack margin="auto" maxWidth="8xl" spacing="6" height="100%" align="stretch">
+    <HStack
+      margin="auto"
+      maxWidth="8xl"
+      spacing="6"
+      height="100%"
+      paddingBottom="2"
+      align="stretch"
+    >
       <Box flex="1" width="0">
         <SystemFiles />
       </Box>
