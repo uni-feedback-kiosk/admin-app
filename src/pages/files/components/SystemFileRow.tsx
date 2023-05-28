@@ -81,7 +81,7 @@ const SystemFileRow = memo(({ file, dragPreview, onDragStarted }: SystemFileRowP
             {Object.entries(file.description)
               .filter(([_, description]) => description !== '')
               .map(([language]) => (
-                <Badge variant="solid" colorScheme="gray">
+                <Badge key={language} variant="solid" colorScheme="gray">
                   {language}
                 </Badge>
               ))}
