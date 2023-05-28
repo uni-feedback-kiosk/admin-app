@@ -58,61 +58,59 @@ const Show = () => {
       </Alert>
       <Card size="sm" variant="outline" alignSelf="center">
         <CardBody>
-          <HStack align="stretch" minHeight="36">
-            <VStack align="stretch" flex="2">
-              <HStack justify="end">
-                <Button size="xs" rightIcon={<BiChevronDown />}>
-                  Actions
-                </Button>
-                <Button size="xs">Upload</Button>
-              </HStack>
-              <Card flex="1">
-                <Tooltip label="File card (opened)" hasArrow isOpen placement="top-start">
-                  <VStack padding="1" align="stretch">
-                    <Flex
-                      direction="column"
-                      align="stretch"
-                      bgColor={rowBackgroundColor}
-                      borderRadius="md"
-                      outline="0.15em solid"
-                      outlineColor={rowColor}
-                    >
-                      <Card padding="1" variant="filled" bgColor={rowColor}>
-                        <HStack>
-                          <Text width="0" flex="1" noOfLines={1}>
-                            WiFi_Manual_EN.pdf
-                          </Text>
-                          <Tooltip label="Language tag" hasArrow placement="right">
-                            <Badge>EN</Badge>
-                          </Tooltip>
-                        </HStack>
-                      </Card>
-                      <HStack padding="2" justifyContent="space-evenly">
-                        <Tooltip label="Open (download) file" hasArrow>
-                          <Button size="xs" leftIcon={<MdFileOpen />}>
-                            Open
-                          </Button>
-                        </Tooltip>
-                        <Tooltip label="Show/Hide toggle for current language" hasArrow>
-                          <Button size="xs" leftIcon={<IoMdEye />}>
-                            Hide (en)
-                          </Button>
-                        </Tooltip>
-                        <Tooltip label="Delete file" hasArrow>
-                          <Button size="xs" leftIcon={<MdDelete />} colorScheme="red">
-                            Delete
-                          </Button>
+          <VStack align="stretch">
+            <HStack justify="end">
+              <Button size="xs" rightIcon={<BiChevronDown />}>
+                Actions
+              </Button>
+              <Button size="xs">Upload</Button>
+            </HStack>
+            <Card flex="1">
+              <Tooltip label="File card (opened)" hasArrow isOpen>
+                <VStack padding="1" align="stretch">
+                  <Flex
+                    direction="column"
+                    align="stretch"
+                    bgColor={rowBackgroundColor}
+                    borderRadius="md"
+                    outline="0.15em solid"
+                    outlineColor={rowColor}
+                  >
+                    <Card padding="1" variant="filled" bgColor={rowColor}>
+                      <HStack>
+                        <Text width="0" flex="1" noOfLines={1}>
+                          WiFi_Manual_EN.pdf
+                        </Text>
+                        <Tooltip label="Language tag" hasArrow placement="right">
+                          <Badge>EN</Badge>
                         </Tooltip>
                       </HStack>
-                    </Flex>
-                  </VStack>
-                </Tooltip>
-              </Card>
-            </VStack>
-          </HStack>
+                    </Card>
+                    <HStack padding="2" justifyContent="space-evenly">
+                      <Tooltip label="Open (download) file" hasArrow>
+                        <Button size="xs" leftIcon={<MdFileOpen />}>
+                          Open
+                        </Button>
+                      </Tooltip>
+                      <Tooltip label="Show/Hide toggle for current language" hasArrow>
+                        <Button size="xs" leftIcon={<IoMdEye />}>
+                          Hide (en)
+                        </Button>
+                      </Tooltip>
+                      <Tooltip label="Delete file" hasArrow>
+                        <Button size="xs" leftIcon={<MdDelete />} colorScheme="red">
+                          Delete
+                        </Button>
+                      </Tooltip>
+                    </HStack>
+                  </Flex>
+                </VStack>
+              </Tooltip>
+            </Card>
+          </VStack>
         </CardBody>
         <CardFooter>
-          <Text width="0" flex="1" align="center">
+          <Text width="0" flex="1" align="center" marginTop={4}>
             Hover on the elements to see their description.
           </Text>
         </CardFooter>
