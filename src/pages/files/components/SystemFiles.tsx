@@ -22,6 +22,7 @@ import { OSFile } from '../KioskFileType';
 import DropArea from './DropArea';
 import useFileDrag from '../hooks/useFileDrag';
 import ActionsMenu from './ActionsMenu';
+import HelpButton from './help/HelpButton';
 
 const SystemFiles = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -58,7 +59,8 @@ const SystemFiles = () => {
     <>
       <VStack align="stretch" height="0" minHeight="100%">
         <HStack>
-          <Text fontSize="lg">Files in the system</Text>
+          <Text fontSize="lg">System files</Text>
+          <HelpButton />
           <Spacer />
           <ActionsMenu />
           <Button
