@@ -20,6 +20,7 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { MdHelp } from 'react-icons/md';
+import { memo } from 'react';
 import Upload from './steps/Upload';
 import Show from './steps/Show';
 import RenameOrHide from './steps/RenameOrHide';
@@ -32,10 +33,9 @@ const steps = [
   { title: 'Rename or hide', component: <RenameOrHide /> },
 ];
 
-const HelpButton = () => {
+const HelpButton = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { activeStep, setActiveStep } = useSteps({
-    index: 1,
     count: steps.length,
   });
 
@@ -88,6 +88,6 @@ const HelpButton = () => {
       </Modal>
     </>
   );
-};
+});
 
 export default HelpButton;
