@@ -35,7 +35,7 @@ const ActionsMenu = () => {
   const [updateFile, { isLoading: isUpdating }] = useUpdateFileMutation();
   const language = useAppSelector((state) => state.files.language);
 
-  const onRemoveAll = useCallback(async () => {
+  const onHideAll = useCallback(async () => {
     if (!files) {
       return;
     }
@@ -63,9 +63,9 @@ const ActionsMenu = () => {
           Actions
         </MenuButton>
         <MenuList>
-          <MenuItem onClick={onRemoveAll} closeOnSelect={false}>
+          <MenuItem onClick={onHideAll} closeOnSelect={false}>
             <HStack width="100%">
-              <Text>Remove all files ({language})</Text>
+              <Text>Hide all files ({language})</Text>
               <Spacer />
               {isUpdating && <Spinner />}
             </HStack>
