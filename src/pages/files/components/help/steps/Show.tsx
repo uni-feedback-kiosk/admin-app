@@ -87,17 +87,21 @@ const Show = () => {
                       </HStack>
                     </Card>
                     <HStack padding="2" justifyContent="space-evenly">
-                      <Tooltip label="Open (download) file" hasArrow>
+                      <Tooltip label="Open (download) file" hasArrow placement="top">
                         <Button size="xs" leftIcon={<MdFileOpen />}>
                           Open
                         </Button>
                       </Tooltip>
-                      <Tooltip label="Show/Hide toggle for current language" hasArrow>
+                      <Tooltip
+                        label="Show/Hide toggle for current language"
+                        hasArrow
+                        placement="top"
+                      >
                         <Button size="xs" leftIcon={<IoMdEye />}>
                           Hide (en)
                         </Button>
                       </Tooltip>
-                      <Tooltip label="Delete file" hasArrow>
+                      <Tooltip label="Delete file" hasArrow placement="top">
                         <Button size="xs" leftIcon={<MdDelete />} colorScheme="red">
                           Delete
                         </Button>
