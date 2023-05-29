@@ -74,6 +74,8 @@ const ShowAndHide = () => {
             <Alert variant="left-accent" status="info" paddingY={1}>
               <Text>
                 You can also drag the file card into the <b>Shown files</b> panel to <b>Show</b> it.
+                <br />
+                File rows in <b>Shown files</b> also have <b>Hide</b> button for easier access.
               </Text>
             </Alert>
           </ListItem>
@@ -127,6 +129,7 @@ const ShowAndHide = () => {
                         onDragStart={onFileDragStart}
                         userSelect="none"
                         cursor="pointer"
+                        border="none"
                       >
                         <HStack>
                           <Text width="0" flex="1" noOfLines={1}>
