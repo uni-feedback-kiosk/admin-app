@@ -76,7 +76,7 @@ const Show = () => {
                     outline="0.15em solid"
                     outlineColor={rowColor}
                   >
-                    <Card padding="1" variant="filled" bgColor={rowColor}>
+                    <Card padding="1" variant="filled" bgColor={rowColor} color="white">
                       <HStack>
                         <Text width="0" flex="1" noOfLines={1}>
                           WiFi_Manual_EN.pdf

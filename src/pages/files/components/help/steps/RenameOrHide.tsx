@@ -38,11 +38,9 @@ const RenameOrHide = () => {
           color. Don&#39;t forget to save it.
         </Text>
       </Alert>
-
       <Text>
         File row also has <b>Hide</b> button in case you want to hide the currently displayed file.
       </Text>
-
       <Card size="sm" variant="outline">
         <CardBody>
           <VStack align="stretch">
@@ -57,7 +55,7 @@ const RenameOrHide = () => {
             <Card flex="1">
               <VStack padding="1" align="stretch">
                 <Tooltip label="File shown for English language" hasArrow isOpen>
-                  <Card padding="1" variant="filled" bgColor={rowColor}>
+                  <Card padding="1" variant="filled" bgColor={rowColor} color="white">
                     <HStack>
                       <Tooltip label="Uploaded file name" hasArrow placement="top">
                         <Text width="0" flex="1" noOfLines={1}>

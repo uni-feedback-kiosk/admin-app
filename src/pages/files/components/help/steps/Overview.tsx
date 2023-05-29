@@ -6,6 +6,9 @@ import {
   CardBody,
   CardFooter,
   HStack,
+  Input,
+  InputGroup,
+  InputRightElement,
   ListItem,
   OrderedList,
   Text,
@@ -18,6 +21,7 @@ import { BiChevronDown } from 'react-icons/bi';
 const Overview = () => {
   const rowColor = useColorModeValue('green.main', 'green.600');
   const inputBackgroundColor = useColorModeValue('white', 'darkgray');
+  const inputTextColor = useColorModeValue('darkgray', 'white');
 
   return (
     <VStack align="stretch">
@@ -54,10 +58,10 @@ const Overview = () => {
                 <Card flex="1">
                   <Tooltip label="Uploaded files" hasArrow placement="right-end">
                     <VStack padding="1" align="stretch">
-                      <Card padding="1" variant="filled" bgColor={rowColor}>
+                      <Card padding="1" variant="filled" bgColor={rowColor} color="white">
                         Connect_to_VPN.pdf
                       </Card>
-                      <Card padding="1" variant="filled" bgColor={rowColor}>
+                      <Card padding="1" variant="filled" bgColor={rowColor} color="white">
                         <HStack>
                           <Text width="0" flex="1" noOfLines={1}>
                             WiFi_Manual_EN.pdf
@@ -85,17 +89,24 @@ const Overview = () => {
                 <Card flex="1">
                   <Tooltip label="Files shown for English language" hasArrow>
                     <VStack padding="1" align="stretch">
-                      <Card padding="1" variant="filled" bgColor={rowColor}>
+                      <Card padding="1" variant="filled" bgColor={rowColor} color="white">
                         <HStack>
                           <Text width="0" flex="1" noOfLines={1}>
                             WiFi_Manual_EN.pdf
                           </Text>
-                          <HStack borderRadius="md" padding="0.5" bgColor={inputBackgroundColor}>
-                            <Text>Connect Wi-Fi</Text>
-                            <Button size="xs" isDisabled>
-                              Save
-                            </Button>
-                          </HStack>
+                          <InputGroup size="sm" width="0" minWidth="10em" flex="1">
+                            <Input
+                              value="Connect Wi-Fi"
+                              bgColor={inputBackgroundColor}
+                              color={inputTextColor}
+                              readOnly
+                            />
+                            <InputRightElement width="12">
+                              <Button size="xs" isDisabled>
+                                Save
+                              </Button>
+                            </InputRightElement>
+                          </InputGroup>
                           <Button colorScheme="red" size="xs">
                             Hide
                           </Button>

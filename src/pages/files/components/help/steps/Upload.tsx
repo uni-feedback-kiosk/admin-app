@@ -62,7 +62,7 @@ const Upload = () => {
         Only PDF files are accepted. Other file types will be ignored.
       </Alert>
       <Card size="sm" variant="outline">
-        <CardBody>
+        <CardBody position="relative">
           <Fade in={isNewFileShown}>
             <Button
               size="sm"
@@ -96,10 +96,10 @@ const Upload = () => {
                     Drop file here
                   </DropArea>
                   <VStack padding="1" align="stretch" onDragEnter={showDropArea}>
-                    <Card padding="1" variant="filled" bgColor={rowColor}>
+                    <Card padding="1" variant="filled" bgColor={rowColor} color="white">
                       Connect_to_VPN.pdf
                     </Card>
-                    <Card padding="1" variant="filled" bgColor={rowColor}>
+                    <Card padding="1" variant="filled" bgColor={rowColor} color="white">
                       <HStack>
                         <Text width="0" flex="1" noOfLines={1}>
                           WiFi_Manual_EN.pdf
@@ -113,7 +113,7 @@ const Upload = () => {
                       visibility={isNewFileShown ? 'visible' : 'hidden'}
                     >
                       <Tooltip label="Uploaded file" hasArrow placement="top">
-                        <Card padding="1" variant="filled" bgColor={rowColor}>
+                        <Card padding="1" variant="filled" bgColor={rowColor} color="white">
                           <HStack>
                             <Text width="0" flex="1" noOfLines={1}>
                               WiFi_Manual_RU.pdf
