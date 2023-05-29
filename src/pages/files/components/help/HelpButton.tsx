@@ -18,19 +18,20 @@ import {
   StepStatus,
   StepTitle,
   Box,
+  VStack,
 } from '@chakra-ui/react';
 import { MdHelp } from 'react-icons/md';
 import { memo } from 'react';
 import Upload from './steps/Upload';
-import Show from './steps/Show';
-import RenameOrHide from './steps/RenameOrHide';
+import ShowAndHide from './steps/ShowAndHide';
+import Rename from './steps/Rename';
 import Overview from './steps/Overview';
 
 const steps = [
   { title: 'Overview', component: <Overview /> },
   { title: 'Upload', component: <Upload /> },
-  { title: 'Show', component: <Show /> },
-  { title: 'Rename or hide', component: <RenameOrHide /> },
+  { title: 'Show and Hide', component: <ShowAndHide /> },
+  { title: 'Rename', component: <Rename /> },
 ];
 
 const HelpButton = memo(() => {
@@ -54,7 +55,7 @@ const HelpButton = memo(() => {
         <ModalContent minWidth="fit-content">
           <ModalHeader>Help</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody as={VStack}>
             <Stepper index={activeStep} colorScheme="green" marginBottom={4} gap={0}>
               {steps.map((step, index) => (
                 <Step
@@ -76,7 +77,7 @@ const HelpButton = memo(() => {
                 </Step>
               ))}
             </Stepper>
-            <Box width="0" minWidth="100%">
+            <Box width="0" minWidth="fit-content">
               {steps[activeStep].component}
             </Box>
           </ModalBody>

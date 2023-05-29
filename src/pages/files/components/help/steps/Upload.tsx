@@ -61,7 +61,7 @@ const Upload = () => {
         <AlertIcon />
         Only PDF files are accepted. Other file types will be ignored.
       </Alert>
-      <Card size="sm" variant="outline">
+      <Card size="sm" variant="outline" minWidth="xl">
         <CardBody position="relative">
           <Fade in={isNewFileShown}>
             <Button
@@ -147,7 +147,8 @@ const Upload = () => {
         </CardBody>
         <CardFooter>
           <Text width="0" flex="1" align="center" marginTop={4}>
-            Try dragging <Code>WiFi_Manual_RU.pdf</Code> file into the <b>System files</b> panel
+            Try <b>dragging</b> <Code>WiFi_Manual_RU.pdf</Code> file into the <b>System files</b>{' '}
+            panel.
           </Text>
         </CardFooter>
       </Card>

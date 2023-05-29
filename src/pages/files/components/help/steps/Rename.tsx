@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { IoMdEyeOff } from 'react-icons/io';
 
-const RenameOrHide = () => {
+const Rename = () => {
   const rowColor = useColorModeValue('green.main', 'green.600');
   const inputTextColor = useColorModeValue('darkgray', 'white');
   const inputBackgroundColor = useColorModeValue('white', 'darkgray');
@@ -99,4 +99,4 @@ const RenameOrHide = () => {
   );
 };
 
-export default RenameOrHide;
+export default Rename;
